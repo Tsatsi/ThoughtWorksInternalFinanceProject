@@ -1,0 +1,14 @@
+{
+  "name": "P1 Dashboard",
+  "description": "P1 Dashboard",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Tsatsi/ThoughtWorksInternalFinanceProject",
+  "private": true,
+  "dependencies": {
+    "angular": "1.2.x",
+    "angular-route": "1.2.x",
+    "angular-loader": "1.2.x",
+    "angular-mocks": "~1.2.x",
+    "html5-boilerplate": "~4.3.0"
+  }
+}

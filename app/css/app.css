@@ -1,0 +1,31 @@
+
+body {
+    margin-top: 40px;
+    /*padding-top: 80px;*/
+    /*padding-bottom: 80px;*/
+}
+
+.page-header {
+    margin: 10px 0 20px;
+    border-bottom: none;
+}
+
+.container {}
+
+h2 {
+    font-size: 24px;
+
+}
+
+img {
+    width: 12%;
+    float: left;
+    padding-right: 50px;
+}
+
+hr {
+    background-color: grey;
+    border: 0 none;
+    height: 5px;
+    margin-bottom: 50px;
+}
