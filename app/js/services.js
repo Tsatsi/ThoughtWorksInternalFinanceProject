@@ -2,8 +2,33 @@
 
 /* Services */
 
+angular.module('myApp.services', [])
+    .factory('_', ['$window',
+        function($window) {
+            return $window._;
+        }
+    ])
+    .factory("XLSXReaderService", ['$q', '$rootScope', function($q, $rootScope, XLSXReader)  {
+        var service = function(data) {
+            angular.extend(this, data);
+        };
 
-// Demonstrate how to register services
-// In this case it is a simple value service.
-angular.module('myApp.services', []).
-  value('version', '0.1');
+        service.readFile = function(file, showPreview) {
+            var deferred = $q.defer();
+
+            XLSXReader(file, showPreview, function(data){
+                $rootScope.$apply(function() {
+                    deferred.resolve(data);
+                });
+            });
+
+            return deferred.promise;
+        };
+
+        return service;
+    }]);
+
+
+
+
+

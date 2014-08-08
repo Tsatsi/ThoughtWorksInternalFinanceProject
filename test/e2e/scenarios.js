@@ -11,14 +11,11 @@ describe('P1 Dashboard', function() {
    }) ;
 
     it('should display header',function(){
-        expect(element(by.css('h2')).getText()).toBe('ThoughtWorks Finance DashBoard');
+        expect(element(by.css('.intro')).getText()).toBe('Internal finance dashboard');
     });
 
     it('should have upload button', function(){
-
-        element(by.id('upload-btn')).isDisplayed().then(function(visible){
-            expect(visible).toBeTruthy();
-        });
+        expect(element(by.css('#upload-btn')).isPresent()).toBeTruthy();
 
     });
 });

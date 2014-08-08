@@ -10,12 +10,35 @@ body {
     border-bottom: none;
 }
 
-.container {}
+.container {
+
+}
+
+.logo {
+    width: 23em;
+    float: left;
+    padding-right: 50px;
+    height: 4em;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.jumbotron-padding {
+    margin-top: 80px;
+}
+
+.intro {
+    font-size: 40px;
+}
 
 h2 {
     font-size: 24px;
 
 }
+
+
 
 img {
     width: 12%;
@@ -29,3 +52,27 @@ hr {
     height: 5px;
     margin-bottom: 50px;
 }
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+    background-color: #449d44;
+    border-color: #398439;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: #449d44;
+    cursor: inherit;
+    display: block;
+
+}
+
+
