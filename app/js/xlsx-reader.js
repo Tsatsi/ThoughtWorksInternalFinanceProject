@@ -8,7 +8,6 @@
 
     if (typeof _ === 'undefined') {
         console.log('Lodash.js is required. Get it from http://lodash.com/');
-        return;
     }
 
     // Baseline setup
