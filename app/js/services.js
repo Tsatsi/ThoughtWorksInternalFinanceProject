@@ -2,8 +2,7 @@
 
 /* Services */
 angular.module('myApp.services', [])
-
-    .factory("XLSXReaderService", ['$q', '$rootScope', function($q, $rootScope, XLSXReader)  {
+       .factory("XLSXReaderService", ['$q', '$rootScope', function($q, $rootScope, XLSXReader)  {
         var service = function(data) {
             angular.extend(this, data);
         };
