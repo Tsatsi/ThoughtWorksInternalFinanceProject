@@ -44,6 +44,7 @@ describe('UploadController', function () {
             it('should read the contents of the file', function () {
                 expect(readerService.readFile).toHaveBeenCalled();
             });
+
             it('should know all the sheets in the uploaded file', function () {
                 expect(scope.sheets).toBe(expectedSheets);
             });
@@ -51,29 +52,29 @@ describe('UploadController', function () {
         });
 
         describe("#validate", function () {
-             beforeEach(function() {
-                 var expectedSheets = [
-                     {'IS-ZA-Actuals': {}},
-                     {'Q2-UG-Plan': {}}
-                 ];
-                 var deferred = q.defer();
-                 deferred.resolve(expectedSheets);
-                 spyOn(readerService, 'readFile').andReturn(deferred.promise);
-                 scope.upload('filename');
-                 scope.$digest();
-             });
+            beforeEach(function () {
+                var expectedSheets = [
+                    {'IS-ZA-Actuals': {}},
+                    {'Q2-UG-Plan': {}}
+                ];
+                var deferred = q.defer();
+                deferred.resolve(expectedSheets);
+                spyOn(readerService, 'readFile').andReturn(deferred.promise);
+                scope.upload('filename');
+                scope.$digest();
+            });
 
 
             it("should be defined", function () {
-                 expect(scope.missingSheet).toBeDefined();
+                expect(scope.missingSheet).toBeDefined();
             });
 
             it('should know when the IS-UG-Actuals sheet is missing', function () {
-                expect(scope.missingSheet('IS-UG-Actuals')).toBeTruthy()
+                expect(scope.missingSheet('IS-UG-Actuals')).toBeTruthy();
             });
 
             it('should know when the IS-ZA-Actuals sheet is not missing', function () {
-                expect(scope.missingSheet('IS-ZA-Actuals')).toBeFalsy()
+                expect(scope.missingSheet('IS-ZA-Actuals')).toBeFalsy();
             });
 
             it('should know when the Q2-ZA-Plan sheet is missing', function () {
@@ -83,9 +84,61 @@ describe('UploadController', function () {
             it('should know when the Q2-UG-Plan sheet is not missing', function () {
                 expect(scope.missingSheet('Q2-UG-Plan')).toBeFalsy()
             });
+
+        });
+
+        describe("#successfulUpload", function () {
+            beforeEach(function () {
+                var expectedSheets = [
+                    {'IS-ZA-Actuals': {}},
+                    {'IS-UG-Actuals': {}},
+                    {'Q2-ZA-Plan': {}},
+                    {'Q2-UG-Plan': {}}
+                ];
+                var deferred = q.defer();
+                deferred.resolve(expectedSheets);
+                spyOn(readerService, 'readFile').andReturn(deferred.promise);
+                scope.upload('filename');
+                scope.$digest();
+            });
+
+            it('should know when the file is successfully uploaded', function () {
+                var availableSheets = [
+                    {'IS-ZA-Actuals': {}},
+                    {'IS-UG-Actuals': {}},
+                    {'Q2-ZA-Plan': {}},
+                    {'Q2-UG-Plan': {}}
+                ];
+                var message = scope.printSuccessMessage(availableSheets);
+                expect(message).toEqual('Successfully uploaded file')
+            });
+
+        });
+
+        describe("#failedUpload", function () {
+            var expectedSheets = [
+                {'IS-ZA-Actuals': {}},
+                {'Q2-UG-Plan': {}}
+            ];
+            beforeEach(function () {
+                var deferred = q.defer();
+                deferred.resolve(expectedSheets);
+                spyOn(readerService, 'readFile').andReturn(deferred.promise);
+                scope.upload('filename');
+                scope.$digest();
+            });
+
+            it('should know when the IS-UG-Actuals and Q2-ZA-Plan sheet are missing', function () {
+                var allSheets = [
+                    {'IS-ZA-Actuals': {}},
+                    {'Q2-UG-Plan': {}},
+                    {'IS-UG-Actuals': {}},
+                    {'Q2-ZA-Plan': {}}
+                ];
+                var message = scope.printSuccessMessage(allSheets);
+                expect(message).toEqual('The excel file uploaded does not contain IS-UG-Actuals,Q2-ZA-Plan')
+            });
         });
 
     });
-
-
 });
