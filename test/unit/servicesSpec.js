@@ -2,23 +2,24 @@
 
 /* jasmine specs for services go here */
 
-xdescribe('service', function() {
+describe('service', function () {
 
-    var scope, service;
+    var service;
+    beforeEach(module('myApp.services'));
+    beforeEach(inject(function (XLSXReaderService) {
 
-  beforeEach(module('myApp.services'));
-    beforeEach(inject(function($injector){
-      scope = $injector.get('$rootScope');
-      service = $injector.get("XLSXReaderService")
-  }))
+        service = XLSXReaderService;
 
-  describe('xlsx reader service', function() {
+    }));
 
-      it("should have xlsx defined", function () {
-          expect(scope.XLSXReader).toBeDefined();
-      });
-  });
-    it("should read XLSX file", function () {
+    describe('xlsx reader service', function () {
 
+        describe('#read file', function () {
+
+            it('should be defined', function () {
+                expect(service.readFile).toBeDefined();
+            });
+        });
     });
+
 });
