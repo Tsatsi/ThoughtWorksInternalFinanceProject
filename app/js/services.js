@@ -23,7 +23,7 @@ angular.module('financeApplication.services', [])
                     type: 'binary'
                 });
 
-                obj.workbook = workbook;
+                obj.sheets = workbook.Sheets;
                 handler(obj);
             };
 
