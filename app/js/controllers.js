@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', ['myApp.services'])
+angular.module('financeApplication.controllers', ['financeApplication.services'])
     .controller('UploadController', ['$scope', 'XLSXReaderService', '$location', function ($scope, XLSXReaderService, $location ) {
 
         $scope.upload = function (file) {

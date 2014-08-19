@@ -5,7 +5,7 @@ describe('UploadController', function () {
 
     var controller, scope, readerService, q;
 
-    beforeEach(module('myApp.controllers', 'myApp.services'));
+    beforeEach(module('financeApplication.controllers', 'financeApplication.services'));
     beforeEach(inject(function ($rootScope, $controller, XLSXReaderService, $q) {
         scope = $rootScope.$new();
         controller = $controller('UploadController', {$scope: scope});

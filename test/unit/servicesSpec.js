@@ -5,7 +5,7 @@
 describe('service', function () {
 
     var service;
-    beforeEach(module('myApp.services'));
+    beforeEach(module('financeApplication.services'));
     beforeEach(inject(function (XLSXReaderService) {
 
         service = XLSXReaderService;

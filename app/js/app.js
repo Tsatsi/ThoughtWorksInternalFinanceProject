@@ -2,12 +2,12 @@
 
 
 // Declare app level module which depends on filters, and services
-angular.module('myApp', [
+angular.module('financeApplication', [
   'ngRoute',
-  'myApp.filters',
-  'myApp.services',
-  'myApp.directives',
-  'myApp.controllers'
+  'financeApplication.filters',
+  'financeApplication.services',
+  'financeApplication.directives',
+  'financeApplication.controllers'
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/upload', {templateUrl: 'partials/upload.html', controller: 'UploadController'});

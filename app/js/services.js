@@ -1,7 +1,7 @@
 'use strict';
 
 /* Services */
-angular.module('myApp.services', [])
+angular.module('financeApplication.services', [])
     .factory("XLSXReaderService", ['$q', function ($q) {
 
         var service = function (data) {
