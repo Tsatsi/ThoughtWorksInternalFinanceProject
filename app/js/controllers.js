@@ -3,8 +3,9 @@
 /* Controllers */
 
 angular.module('financeApplication.controllers', ['financeApplication.services'])
-    .controller('UploadController', ['$scope', 'XLSXReaderService', '$location', function ($scope, XLSXReaderService, $location ) {
-        $scope.message = '';
+    .controller('UploadController', ['$scope', 'XLSXReaderService', '$location', function ($scope, XLSXReaderService, $location) {
+
+        var validSheets = ['IS-ZA-Actuals', 'IS-UG-Actuals', 'Q2-ZA Plan', 'Q2-UG Plan'];
 
         $scope.upload = function (file) {
             XLSXReaderService.readFile(file[0]).then(function (sheets) {
@@ -12,27 +13,16 @@ angular.module('financeApplication.controllers', ['financeApplication.services']
             });
         };
 
-        $scope.missingSheet = function (sheet) {
-            return _.find($scope.sheets, sheet) == undefined;
-        };
-
-        $scope.printSuccessMessage = function(allSheets) {
-            var missing = [];
-
-            _.forEach(allSheets, function(sheet) {
-                if ($scope.missingSheet(sheet)){
-                    missing.push(Object.keys(sheet)[0])
+        $scope.printSuccessMessage = function () {
+            var missing = _.transform(validSheets, function (result, sheet) {
+                var sheetMissing = _.find($scope.sheets, sheet) == undefined;
+                if (sheetMissing) {
+                    result.push(sheet);
                 }
             });
-
-            if (!missing.length == 0){
-                $scope.message = 'The excel file uploaded does not contain ' + missing
-            }
-            else {
-                $scope.message = 'Successfully uploaded file';
-            }
-
-            return $scope.message;
+            var successMessage = 'Successfully uploaded file';
+            var failureMessage = 'The excel file uploaded does not contain ';
+            return missing.length > 0 ? failureMessage + missing.toString().replace(/,/g, ', ') : successMessage;
         }
     }]);
 
