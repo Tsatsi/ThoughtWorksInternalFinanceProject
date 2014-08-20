@@ -16,7 +16,15 @@ var financeHomePagePage = function () {
 
     this.uploadButtonValue = function () {
         return element(by.css('.btn-file')).getText();
-    }
+    };
+
+    this.successNotification = function () {
+        return element(by.css('.alert-success')).getText();
+    };
+
+    this.errorNotification = function () {
+        return element(by.css('.alert-error')).getText();
+    };
 };
 
 module.exports = new financeHomePagePage();

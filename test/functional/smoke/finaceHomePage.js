@@ -26,13 +26,13 @@ describe('P1 Dashboard', function () {
     });
 
     it('should upload a file and display success message when the file is valid', function () {
-        uploadFile('../../assets/input-valid.xlsx');
-        //add expectation here
+        uploadFile('../../../app/assets/input-valid.xlsx');
+        expect(financeHomePagePage.successNotification()).toContain('Successfully uploaded file');
     });
 
     it('should upload a file and display an error message when the file is invalid', function () {
-        uploadFile('../../assets/input-invalid.xlsx');
-        //add expectation here
+        uploadFile('../../../app/assets/input-invalid.xlsx');
+        expect(financeHomePagePage.errorNotification()).toContain('The excel file uploaded does not contain Q2-ZA Plan');
     });
 
     var uploadFile = function (filePath) {
