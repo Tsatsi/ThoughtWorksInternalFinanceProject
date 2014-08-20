@@ -3,7 +3,6 @@
 
 describe('P1 Dashboard', function () {
 
-    var path = require('path');
     var financeHomePagePage = require('../pages/financeHomePagePage.js');
 
     browser.get('index.html');
@@ -26,19 +25,12 @@ describe('P1 Dashboard', function () {
     });
 
     it('should upload a file and display success message when the file is valid', function () {
-        uploadFile('../../../app/assets/input-valid.xlsx');
+        financeHomePagePage.uploadFile('../../../app/assets/input-valid.xlsx');
         expect(financeHomePagePage.successNotification()).toContain('Successfully uploaded file');
     });
 
     it('should upload a file and display an error message when the file is invalid', function () {
-        uploadFile('../../../app/assets/input-invalid.xlsx');
+        financeHomePagePage.uploadFile('../../../app/assets/input-invalid.xlsx');
         expect(financeHomePagePage.errorNotification()).toContain('The excel file uploaded does not contain Q2-ZA Plan');
     });
-
-    var uploadFile = function (filePath) {
-        var absolutePath = path.resolve(__dirname, filePath);
-        element(by.css('input[type="file"]')).sendKeys(absolutePath);
-    }
-
-
 });

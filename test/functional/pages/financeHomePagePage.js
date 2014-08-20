@@ -1,6 +1,7 @@
 var financeHomePagePage = function () {
 
     var helpers = require('./helpers.js');
+    var path = require('path');
 
     this.pageTitle = function () {
         return browser.getTitle();
@@ -25,6 +26,11 @@ var financeHomePagePage = function () {
     this.errorNotification = function () {
         return element(by.css('.alert-error')).getText();
     };
+
+    this.uploadFile = function (filePath) {
+        var absolutePath = path.resolve(__dirname, filePath);
+        element(by.css('input[type="file"]')).sendKeys(absolutePath);
+    }
 };
 
 module.exports = new financeHomePagePage();
