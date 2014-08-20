@@ -26,12 +26,12 @@ describe('P1 Dashboard', function () {
     });
 
     it('should upload a file and display success message when the file is valid', function () {
-        uploadFile('../../input-valid.xlsx');
+        uploadFile('../../assets/input-valid.xlsx');
         //add expectation here
     });
 
     it('should upload a file and display an error message when the file is invalid', function () {
-        uploadFile('../../input-invalid.xlsx');
+        uploadFile('../../assets/input-invalid.xlsx');
         //add expectation here
     });
 

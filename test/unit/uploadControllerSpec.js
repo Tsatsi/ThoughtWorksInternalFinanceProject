@@ -38,6 +38,12 @@ describe('UploadController', function () {
                 expect(readerService.readFile).toHaveBeenCalled();
             });
 
+            it('should know when an upload is complete', function () {
+                var expectedSheets = ['sheet 1', 'sheet 2'];
+                simulateUpload(expectedSheets);
+                expect(scope.uploadComplete).toBeTruthy();
+            });
+
             it('should know all the sheets in the uploaded file', function () {
                 var expectedSheets = ['sheet 1', 'sheet 2'];
                 simulateUpload(expectedSheets);
@@ -54,6 +60,7 @@ describe('UploadController', function () {
                 ];
                 simulateUpload(expectedSheets);
                 var message = scope.uploadConfirmationMessage();
+                expect(scope.uploadSuccessful).toBeTruthy();
                 expect(message).toEqual('Successfully uploaded file')
             });
 
@@ -63,7 +70,22 @@ describe('UploadController', function () {
                 ];
                 simulateUpload(expectedSheets);
                 var message = scope.uploadConfirmationMessage();
+                expect(scope.uploadSuccessful()).toBeFalsy();
                 expect(message).toEqual('The excel file uploaded does not contain IS-UG-Actuals, Q2-ZA Plan, Q2-UG Plan')
+            });
+
+            it('should apply error style when an upload is not successful', function () {
+                scope.uploadSuccessful =  function () {
+                    return false;
+                };
+                expect(scope.messageStyle()).toBe('alert alert-danger alert-error');
+            });
+
+            it('should apply success style when an upload is not successful', function () {
+                scope.uploadSuccessful =  function () {
+                    return true;
+                };
+                expect(scope.messageStyle()).toBe('alert alert-success');
             });
 
             var simulateUpload = function (expectedSheets) {
