@@ -1,8 +1,9 @@
 <span class="intro">Internal Finance Dashboard</span>
+<div ng-show="uploadComplete">{{uploadConfirmationMessage()}}</div>
 <p class="lead">Please click the upload button to upload a spreadsheet</p>
-<span class="btn btn-default btn-file">Upload Excel File<input type="file" id="upload-btn" accept=".xlsx"
-                                                               onchange="angular.element(this).scope().upload(this.files);"
-                                                               required="true"></span>
+<span class="btn btn-default btn-file">Upload Excel File
+    <input type="file" id="upload-btn" accept=".xlsx" onchange="angular.element(this).scope().upload(this.files);" required="true">
+</span>
 
 
 

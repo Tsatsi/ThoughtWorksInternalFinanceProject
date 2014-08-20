@@ -10,6 +10,7 @@ angular.module('financeApplication.controllers', ['financeApplication.services']
         $scope.upload = function (file) {
             XLSXReaderService.readFile(file[0]).then(function (sheets) {
                 $scope.sheets = sheets;
+                $scope.uploadComplete = true;
             });
         };
 
@@ -24,6 +25,11 @@ angular.module('financeApplication.controllers', ['financeApplication.services']
             var successMessage = 'Successfully uploaded file';
             var failureMessage = 'The excel file uploaded does not contain ';
             return missing.length > 0 ? failureMessage + missing.toString().replace(/,/g, ', ') : successMessage;
-        }
+        };
+
+        $scope.uploadSuccessful = function (){
+
+            return scope.uploadConfirmationMessage()
+        };
     }]);
 
