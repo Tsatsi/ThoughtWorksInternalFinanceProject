@@ -13,7 +13,8 @@ angular.module('financeApplication.controllers', ['financeApplication.services']
             });
         };
 
-        $scope.printSuccessMessage = function () {
+
+        $scope.uploadConfirmationMessage = function () {
             var missing = _.transform(validSheets, function (result, sheet) {
                 var sheetMissing = _.find($scope.sheets, sheet) == undefined;
                 if (sheetMissing) {

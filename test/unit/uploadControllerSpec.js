@@ -45,6 +45,7 @@ describe('UploadController', function () {
             });
 
             it('should know when the file is successfully uploaded', function () {
+
                 var expectedSheets = [
                     {'IS-ZA-Actuals': {}},
                     {'IS-UG-Actuals': {}},
@@ -52,17 +53,16 @@ describe('UploadController', function () {
                     {'Q2-UG Plan': {}}
                 ];
                 simulateUpload(expectedSheets);
-                var message = scope.printSuccessMessage();
+                var message = scope.uploadConfirmationMessage();
                 expect(message).toEqual('Successfully uploaded file')
             });
 
             it('should know when the IS-UG-Actuals and Q2-ZA-Plan sheet are missing', function () {
                 var expectedSheets = [
                     {'IS-ZA-Actuals': {}}
-
                 ];
                 simulateUpload(expectedSheets);
-                var message = scope.printSuccessMessage();
+                var message = scope.uploadConfirmationMessage();
                 expect(message).toEqual('The excel file uploaded does not contain IS-UG-Actuals, Q2-ZA Plan, Q2-UG Plan')
             });
 
