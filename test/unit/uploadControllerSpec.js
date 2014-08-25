@@ -97,4 +97,11 @@ describe('UploadController', function () {
             }
         });
     });
+
+    describe('financials', function () {
+        it('should know the region for which financials need to be displayed', function () {
+            scope.financials = {"region": "Johannesburg"};
+            expect(scope.region()).toBe('Johannesburg');
+        });
+    });
 });

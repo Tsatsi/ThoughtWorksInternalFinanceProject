@@ -1,11 +1,14 @@
 'use strict';
 
 
-describe('P1 Dashboard', function () {
+ddescribe('P1 Dashboard', function () {
 
     var financeHomePagePage = require('../pages/financeHomePagePage.js');
 
-    browser.get('index.html');
+
+    beforeEach(function () {
+        browser.get('index.html');
+    });
 
     it('should display homepage Title', function () {
         expect(financeHomePagePage.pageTitle()).toEqual('P1 Dashboard');
