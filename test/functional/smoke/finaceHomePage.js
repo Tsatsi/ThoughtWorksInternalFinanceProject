@@ -17,7 +17,6 @@ describe('P1 Dashboard', function () {
 
     it('should have upload button', function () {
         expect(financeHomePagePage.uploadButtonPresent()).toBeTruthy();
-
     });
 
     it('should have and upload button with button value: "Upload Excel File" ', function () {

@@ -42,4 +42,7 @@ angular.module('financeApplication.services', [])
         };
 
         return service;
+    }])
+    .factory('financialsService', ['$q', function($q, XLSXReaderService){
+        $q.all([XLSXReaderService]);
     }]);

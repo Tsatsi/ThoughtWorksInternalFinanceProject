@@ -1,29 +1,20 @@
-<div>
-        <form action="" method="post" enctype="multipart/form-data">
-
-
-        <div class='form-group'>
-            <label for='sheet_name'>Sheet Name</label>
-            <select id="sheet_name" class="form-control" ng-model="selectedSheetName" required="true" ng-required="true" ng-options="sheetName as sheetName for (sheetName, sheetData) in sheets">
-                <option value="">---- Select a sheet ----</option>
-            </select>
-        </div>
-
-        <input type="hidden" name="sheet_name" value="{{ selectedSheetName }}">
-
-        <input type="submit" value="Submit">
-
-        <div ng-show="showPreview">
-            <table class="table table-bordered" ng-repeat="(sheetName, sheetData) in sheets" ng-show="sheetName == selectedSheetName">
-                <thead>
-                <tr>
-                    <th ng-bind="sheetName"></th>
-                </tr>
-                </thead>
-                <tr ng-repeat="row in sheetData.data">
-                    <td ng-repeat="col in row" ng-bind="col"></td>
-                </tr>
-            </table>
-        </div>
-    </form>
+<div class="jumbotron jumbotron-padding">
+    <span class="intro">Internal Finance Dashboard</span>
 </div>
+
+<table class="table table-hover">
+    <thead>
+    <tr >
+        <th>Serial Number</th>
+        <th>Description</th>
+        <th ng-repeat="column in financials[0].values">{{column.period}}</th>
+    </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="row in financials">
+            <td>{{row.serialNumber}}</td>
+            <td>{{row.indicator}}</td>
+            <td ng-repeat="value in row.values">{{value.value.amount}}</td>
+        </tr>
+    </tbody>
+</table>

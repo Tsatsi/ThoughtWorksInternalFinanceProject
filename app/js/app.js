@@ -11,7 +11,7 @@ angular.module('financeApplication', [
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/upload', {templateUrl: 'partials/upload.html', controller: 'UploadController'});
-  $routeProvider.when('/preview', {templateUrl: 'partials/preview.html', controller: 'PreviewController'});
+  $routeProvider.when('/preview', {templateUrl: 'partials/preview.html', controller: 'UploadController'});
   $routeProvider.otherwise({redirectTo: '/upload'});
 
 }]);
