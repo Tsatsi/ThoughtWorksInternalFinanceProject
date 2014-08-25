@@ -87,4 +87,27 @@ hr {
     margin-bottom: -1.5em;
 }
 
+.financials-table thead {
+        background-color: #DCE5F7;
+    }
+
+.nav-buttons {
+    margin-bottom: 1em;
+    margin-top: 9em;
+
+}
+
+.bill-rates {
+    width: 20em;
+}
+
+.financial-inputs {
+    margin-top: 1em;
+    position:absolute;
+}
+
+.financials-input-group {
+    margin-bottom: 1em;
+}
+
 

@@ -3,14 +3,15 @@
 
 describe('UploadController', function () {
 
-    var controller, scope, readerService, q;
+    var controller, scope, readerService, q, location;
 
     beforeEach(module('financeApplication.controllers', 'financeApplication.services'));
-    beforeEach(inject(function ($rootScope, $controller, XLSXReaderService, $q) {
+    beforeEach(inject(function ($rootScope, $controller, XLSXReaderService, $q, $location) {
         scope = $rootScope.$new();
         controller = $controller('UploadController', {$scope: scope});
         readerService = XLSXReaderService;
         q = $q;
+        location = $location;
 
     }));
 
@@ -99,9 +100,16 @@ describe('UploadController', function () {
     });
 
     describe('financials', function () {
-        it('should know the region for which financials need to be displayed', function () {
+        it('should know the region for which financials are being displayed', function () {
             scope.financials = {"region": "Johannesburg"};
             expect(scope.region()).toBe('Johannesburg');
         });
+
+        it("should know how to go back to the upload page", function () {
+            scope.backToUploadPage();
+            expect(location.absUrl()).toContain('upload');
+        });
     });
+
+
 });

@@ -40,6 +40,10 @@ angular.module('financeApplication.controllers', ['financeApplication.services']
           return $scope.financials.region;
         };
 
+        $scope.backToUploadPage = function () {
+          $location.path('#/upload');
+        };
+
         $scope.financials = {"region": "Johannesburg", "data": [
             {
                 "indicator": "Net Revenue",

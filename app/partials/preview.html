@@ -2,16 +2,16 @@
     <span class="intro">Internal Finance Dashboard</span>
 </div>
 
-<table class="table table-hover">
+<table class="table table-hover table-striped table-bordered table-condensed financials-table">
     <thead>
     <tr >
         <th>Serial Number</th>
         <th>Description</th>
-        <th ng-repeat="column in financials[0].values">{{column.period}}</th>
+        <th ng-repeat="column in financials.data[0].values">{{column.period}}</th>
     </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="row in financials">
+        <tr ng-repeat="row in financials.data">
             <td>{{row.serialNumber}}</td>
             <td>{{row.indicator}}</td>
             <td ng-repeat="value in row.values">{{value.value.amount}}</td>

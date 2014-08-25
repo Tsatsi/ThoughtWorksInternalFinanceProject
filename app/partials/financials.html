@@ -5,3 +5,58 @@
 <div class="financials">
     <h3 id="region">{{region()}} Financials</h3>
 </div>
+<div>
+    <table class="table table-hover table-striped table-bordered table-condensed financials-table">
+        <thead>
+        <tr>
+            <th>Serial Number</th>
+            <th>Description</th>
+            <th ng-repeat="column in financials.data[0].values">{{column.period}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in financials.data">
+            <td>{{row.serialNumber}}</td>
+            <td>{{row.indicator}}</td>
+            <td ng-repeat="value in row.values">{{value.value.amount | currency:"R "}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <div>
+        <form class="form-inline" role="form">
+            <div class="financials-input-group">
+                <div>
+                    <span>Average Bill Rates</span>
+                </div>
+                <div class="input-group financial-inputs">
+                    <div class="input-group-addon">Planned</div>
+                    <input class="form-control" type="email" placeholder="">
+                </div>
+                <div class="input-group financial-inputs">
+                    <div class="input-group-addon">Actuals</div>
+                    <input class="form-control" type="email" placeholder="">
+                </div>
+            </div>
+
+            <div class="financial-inputs">
+                <div>
+                    <span>Average Bill Rates</span>
+                </div>
+                <div class="input-group financial-inputs">
+                    <div class="input-group-addon">Planned</div>
+                    <input class="form-control" type="email" placeholder="">
+                </div>
+                <div class="input-group financial-inputs">
+                    <div class="input-group-addon">Actuals</div>
+                    <input class="form-control" type="email" placeholder="">
+                </div>
+            </div>
+
+        </form>
+        <div class="nav-buttons">
+            <input ng-click="backToUploadPage()" class="btn btn-default" type="button" id="back-btn" value="Back to upload page">
+        </div>
+    </div>
+
+
+</div>

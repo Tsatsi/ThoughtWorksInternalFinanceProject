@@ -3,7 +3,7 @@
 /* Services */
 angular.module('financeApplication.services', [])
     .factory("XLSXReaderService", ['$q', function ($q) {
-
+        var financials;
         var service = function (data) {
         };
 
@@ -24,6 +24,7 @@ angular.module('financeApplication.services', [])
                 });
 
                 obj.sheets = workbook.Sheets;
+
                 handler(obj);
             };
 
@@ -39,6 +40,10 @@ angular.module('financeApplication.services', [])
             });
 
             return deferred.promise;
+        };
+        service.financials = function() {
+            //code for reformatting
+          return financials;
         };
 
         return service;
