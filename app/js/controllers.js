@@ -41,10 +41,14 @@ angular.module('financeApplication.controllers', ['financeApplication.services']
         };
 
         $scope.backToUploadPage = function () {
-          $location.path('#/upload');
+          $location.path('/upload');
         };
 
-
+        $scope.financeNavigation = function (region) {
+            if (region === 'JHB'){
+                $location.path('/financials');
+            }
+        };
 
         $scope.financials = {"region": "Johannesburg", "data": [
             {

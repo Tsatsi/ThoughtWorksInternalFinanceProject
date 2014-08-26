@@ -1,14 +1,54 @@
-<div class="jumbotron jumbotron-padding">
-<span class="intro">Internal Finance Dashboard</span>
+
 <div ng-show="uploadComplete" class="{{messageStyle()}}">
-    <a class="close" data-dismiss="alert" href="#">×</a>
+    <a class="close" data-dismiss="alert">×</a>
    {{uploadConfirmationMessage()}}
 </div>
-<p class="lead">Please click the upload button to upload a spreadsheet</p>
-<span class="btn btn-default btn-file">Upload Excel File
-    <input type="file" id="upload-btn" accept=".xlsx" onchange="angular.element(this).scope().upload(this.files);" required="true">
-</span>
+<div class="upload" ng-hide="uploadSuccessful()">
+    <p class="lead">Please click the upload button to upload a spreadsheet</p>
+    <span class="btn btn-default btn-file">Upload Excel File
+        <input type="file" id="upload-btn" accept=".xlsx" onchange="angular.element(this).scope().upload(this.files);" required="true">
+    </span>
 </div>
 
+
+
+<div class="row" ng-show="uploadSuccessful()">
+    <div class="col-sm-6 col-md-4 financials-block">
+        <div class="thumbnail">
+            <div class="caption">
+                <h3 class="">Financials</h3>
+                <img src="img/finance.jpg" alt="..." class="img-financials">
+                <p><a ng-click="financeNavigation('JHB')" class="btn btn-default" role="button">Johannesburg</a>
+                   <a href="#" class="btn btn-default" role="button">Kampala</a>
+                   <a href="#" class="btn btn-default" role="button">Pan Africa</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4 financials-block">
+        <div class="thumbnail">
+            <div class="caption">
+                <h3 class="">Accumulative Financials</h3>
+                <img src="img/acc.jpg" alt="..." class="img-financials">
+                <p><a href="#" class="btn btn-default" role="button">Johannesburg</a>
+                    <a href="#" class="btn btn-default" role="button">Kampala</a>
+                    <a href="#" class="btn btn-default" role="button">Pan Africa</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4 financials-block">
+        <div class="thumbnail">
+            <div class="caption">
+                <h3 class="">OPEX</h3>
+                <img src="img/OPEX.jpg" alt="..." class="img-financials">
+                <p><a href="#" class="btn btn-default" role="button">Johannesburg</a>
+                    <a href="#" class="btn btn-default" role="button">Kampala</a>
+                    <a href="#" class="btn btn-default" role="button">Pan Africa</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
 
 

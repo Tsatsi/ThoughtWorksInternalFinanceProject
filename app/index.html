@@ -21,10 +21,12 @@
 </head>
 <body>
 <div class="container">
+    <div class="jumbotron jumbotron-padding">
     <a href="/" title="Return to homepage" id="logo">
         <img class="logo" src="img/tw-logo.png" alt="ThoughtWorks logo"/>
     </a>
-
+    <span class="intro">Internal Finance Dashboard</span>
+</div>
     <!--[if lt IE 7]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a
             href="http://browsehappy.com/">upgrade
@@ -32,10 +34,10 @@
     <![endif]-->
 
 
-
-        <div ng-view></div>
+    <div ng-view></div>
     </div>
 </div>
+
 <!-- Site footer -->
 <div id="footer">
     <div class="container">
@@ -60,5 +62,7 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="bower_components/lodash/dist/lodash.min.js"></script>
+
+
 </body>
 </html>
