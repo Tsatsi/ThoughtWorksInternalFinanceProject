@@ -44,6 +44,8 @@ angular.module('financeApplication.controllers', ['financeApplication.services']
           $location.path('#/upload');
         };
 
+
+
         $scope.financials = {"region": "Johannesburg", "data": [
             {
                 "indicator": "Net Revenue",

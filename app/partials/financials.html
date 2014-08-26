@@ -24,39 +24,11 @@
     </table>
     <div>
         <form class="form-inline" role="form">
-            <div class="financials-input-group">
-                <div>
-                    <span>Average Bill Rates</span>
-                </div>
-                <div class="input-group financial-inputs">
-                    <div class="input-group-addon">Planned</div>
-                    <input class="form-control" type="email" placeholder="">
-                </div>
-                <div class="input-group financial-inputs">
-                    <div class="input-group-addon">Actuals</div>
-                    <input class="form-control" type="email" placeholder="">
-                </div>
-            </div>
-
-            <div class="financial-inputs">
-                <div>
-                    <span>Average Bill Rates</span>
-                </div>
-                <div class="input-group financial-inputs">
-                    <div class="input-group-addon">Planned</div>
-                    <input class="form-control" type="email" placeholder="">
-                </div>
-                <div class="input-group financial-inputs">
-                    <div class="input-group-addon">Actuals</div>
-                    <input class="form-control" type="email" placeholder="">
-                </div>
-            </div>
-
+            <financial-input header="Average Bill Rates"></financial-input>
+            <financial-input header="Average Utilization"></financial-input>
         </form>
         <div class="nav-buttons">
             <input ng-click="backToUploadPage()" class="btn btn-default" type="button" id="back-btn" value="Back to upload page">
         </div>
     </div>
-
-
 </div>
