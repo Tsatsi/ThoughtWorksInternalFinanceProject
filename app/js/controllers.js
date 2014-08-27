@@ -37,15 +37,15 @@ angular.module('financeApplication.controllers', ['financeApplication.services']
         };
 
         $scope.region = function () {
-          return $scope.financials.region;
+            return $scope.financials.region;
         };
 
         $scope.backToUploadPage = function () {
-          $location.path('/upload');
+            $location.path('/upload');
         };
 
         $scope.financeNavigation = function (region) {
-            if (region === 'JHB'){
+            if (region === 'JHB') {
                 $location.path('/financials');
             }
         };
@@ -54,123 +54,63 @@ angular.module('financeApplication.controllers', ['financeApplication.services']
             {
                 "indicator": "Net Revenue",
                 "serialNumber": 1,
+                "type": "Currency",
                 "values": [
-                    {
-                        "period": "August 2014",
-                        "value": {
-                            "amount": 100,
-                            "type": "Currency"
-                        }
-                    },
-                    {
-                        "period": "August 2014 Plan",
-                        "value": {
-                            "amount": 1000,
-                            "type": "Currency"
-                        }
-                    }
+                    {"period": "August", "amount": 100, "type": "Plan"},
+                    {"period": "August", "amount": 100, "type": "Actual"}
                 ]
             },
             {
-                "indicator": "Gross Profit %",
+                "indicator": "Gross Profit",
                 "serialNumber": 2,
+                "type": "Percentage",
                 "values": [
-                    {
-                        "period": "August 2014",
-                        "value": {
-                            "amount": 5.5,
-                            "type": "Percentage"
-                        }
-                    },
-                    {
-                        "period": "August 2014 Plan",
-                        "value": {
-                            "amount": 5.7,
-                            "type": "Percentage"
-                        }
-                    }
+                    {"period": "August", "amount": 5, "type": "Plan"},
+                    {"period": "August", "amount": 6, "type": "Actual"}
+
                 ]
             },
             {
-                "indicator": "Cost of Service",
+                "indicator": "Cost of Services",
                 "serialNumber": 3,
+                "type": "Percentage",
                 "values": [
-                    {
-                        "period": "August 2014",
-                        "value": {
-                            "amount": 467890,
-                            "type": "Currency"
-                        }
-                    },
-                    {
-                        "period": "August 2014 Plan",
-                        "value": {
-                            "amount": 567489,
-                            "type": "Currency"
-                        }
-                    }
+                    {"period": "August", "amount": 5, "type": "Plan"},
+                    {"period": "August", "amount": 6, "type": "Actual"}
+
                 ]
             },
             {
-                "indicator": "Total Operating Expense",
+                "indicator": "Some other stuffs",
                 "serialNumber": 4,
+                "type": "Percentage",
                 "values": [
-                    {
-                        "period": "August 2014",
-                        "value": {
-                            "amount": 898493,
-                            "type": "Currency"
-                        }
-                    },
-                    {
-                        "period": "August 2014 Plan",
-                        "value": {
-                            "amount": 673829,
-                            "type": "Currency"
-                        }
-                    }
+                    {"period": "August", "amount": 5, "type": "Plan"},
+                    {"period": "August", "amount": 6, "type": "Actual"}
+
                 ]
             },
             {
-                "indicator": "Operating Contribution",
+                "indicator": "Some other other stuff",
                 "serialNumber": 5,
+                "type": "Percentage",
                 "values": [
-                    {
-                        "period": "August 2014",
-                        "value": {
-                            "amount": 442800,
-                            "type": "Currency"
-                        }
-                    },
-                    {
-                        "period": "August 2014 Plan",
-                        "value": {
-                            "amount": 454210,
-                            "type": "Currency"
-                        }
-                    }
+                    {"period": "August", "amount": 5, "type": "Plan"},
+                    {"period": "August", "amount": 6, "type": "Actual"}
+
                 ]
             },
             {
-                "indicator": "Client Gross Margin %",
+                "indicator": "The last stuffs",
                 "serialNumber": 6,
+                "type": "Percentage",
                 "values": [
-                    {
-                        "period": "August 2014",
-                        "value": {
-                            "amount": 8.2,
-                            "type": "Percentage"
-                        }
-                    },
-                    {
-                        "period": "August 2014 Plan",
-                        "value": {
-                            "amount": 9.3,
-                            "type": "Percentage"
-                        }
-                    }
+                    {"period": "August", "amount": 5, "type": "Plan"},
+                    {"period": "August", "amount": 6, "type": "Actual"}
+
                 ]
             }
+
         ]};
 
     }]);

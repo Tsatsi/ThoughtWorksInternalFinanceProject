@@ -5,6 +5,7 @@ angular.module('financeApplication.services', [])
     .factory("XLSXReaderService", ['$q', function ($q) {
         var financials;
         var service = function (data) {
+
         };
 
         var XLSXReader = function (file, handler) {
