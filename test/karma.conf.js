@@ -10,8 +10,23 @@ module.exports = function (config) {
             'app/bower_components/lodash/dist/lodash.min.js',
             'app/bower_components/js-xlsx/xlsx.js',
             'app/js/**/*.js',
-            'test/unit/**/*.js'
+            'test/unit/**/*.js',
+            'app/assets/*.json'
+
         ],
+
+        ngJson2JsPreprocessor: {
+            // strip this from the file path
+            stripPrefix: 'app/assets/',
+            // prepend this to the
+            prependPrefix: 'served/'
+
+            /* or define a custom transform function
+             cacheIdFromPath: function(filepath) {
+             return cacheId;
+             }
+             */
+        },
 
         // coverage reporter generates the coverage
         reporters: ['progress', 'coverage'],
@@ -23,7 +38,8 @@ module.exports = function (config) {
             'app/js/controllers.js': ['coverage'],
             'app/js/directives.js': ['coverage'],
             'app/js/filters.js': ['coverage'],
-            'app/js/services.js': ['coverage']
+            'app/js/services.js': ['coverage'],
+            'app/assets/*.json': ['json2js']
         },
 
         // optionally, configure the reporter
@@ -43,7 +59,8 @@ module.exports = function (config) {
             'karma-firefox-launcher',
             'karma-jasmine',
             'karma-junit-reporter',
-            'karma-coverage'
+            'karma-coverage',
+            'karma-ng-json2js-preprocessor'
         ],
 
         junitReporter: {

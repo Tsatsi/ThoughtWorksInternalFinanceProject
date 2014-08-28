@@ -1,5 +1,5 @@
 <div class="financials">
-    <h3 id="region">{{region()}} Financials</h3>
+    <h3 id="region">{{financialsFor().region}} Financials</h3>
 </div>
 <div>
     <table class="table table-hover table-striped table-bordered table-condensed financials-table">
@@ -7,14 +7,14 @@
         <tr>
             <th>Serial Number</th>
             <th>Description</th>
-            <th ng-repeat="column in financials.data[0].values">{{column.period}} {{column.type}}</th>
+            <th ng-repeat="column in financialsFor().data[0].values">{{column.period}} {{column.type}}</th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="row in financials.data">
+        <tr ng-repeat="row in financialsFor().data">
             <td>{{row.serialNumber}}</td>
             <td>{{row.indicator}}</td>
-            <td ng-repeat="value in row.values">{{value.amount | currency:"R "}}</td>
+            <td ng-repeat="value in row.values">{{value.amount | currency:''}}</td>
         </tr>
         </tbody>
     </table>

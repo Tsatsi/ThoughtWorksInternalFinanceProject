@@ -1,18 +1,21 @@
 {
-    "name": "P1 Dashboard",
-    "description": "P1 Dashboard",
-    "version": "0.0.0",
-    "homepage": "https://github.com/Tsatsi/ThoughtWorksInternalFinanceProject",
-    "private": true,
-    "dependencies": {
-        "angular": "1.2.x",
-        "angular-route": "1.2.x",
-        "angular-loader": "1.2.x",
-        "angular-mocks": "~1.2.x",
-        "html5-boilerplate": "~4.3.0",
-        "lodash": "~2.4.1",
-        "bootstrap": "~3.2.0",
-        "js-xlsx" : "~0.7.7"
-    }
+  "name": "P1 Dashboard",
+  "description": "P1 Dashboard",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Tsatsi/ThoughtWorksInternalFinanceProject",
+  "private": true,
+  "dependencies": {
+    "angular": "1.2.x",
+    "angular-route": "1.2.x",
+    "angular-loader": "1.2.x",
+    "angular-mocks": "~1.2.x",
+    "html5-boilerplate": "~4.3.0",
+    "lodash": "~2.4.1",
+    "bootstrap": "~3.2.0",
+    "js-xlsx": "~0.7.7",
+    "momentjs": "~2.8.2"
+  },
+  "devDependencies": {
 
+  }
 }

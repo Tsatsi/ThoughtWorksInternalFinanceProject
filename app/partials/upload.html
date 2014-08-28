@@ -10,7 +10,7 @@
     </span>
 </div>
 
-
+{{stuffs()}}
 
 <div class="row" ng-show="uploadSuccessful()">
     <div class="col-sm-6 col-md-4 financials-block">
@@ -18,8 +18,8 @@
             <div class="caption">
                 <h3 class="">Financials</h3>
                 <img src="img/finance.jpg" alt="..." class="img-financials">
-                <p><a ng-click="financeNavigation('JHB')" class="btn btn-default" role="button">Johannesburg</a>
-                   <a href="#" class="btn btn-default" role="button">Kampala</a>
+                <p><a ng-click="financialsFor('JHB'); go()" class="btn btn-default" role="button">Johannesburg</a>
+                   <a ng-click="financialsFor('KPL'); go()" class="btn btn-default" role="button">Kampala</a>
                    <a href="#" class="btn btn-default" role="button">Pan Africa</a>
                 </p>
             </div>

@@ -3,17 +3,30 @@
 
 describe('UploadController', function () {
 
-    var controller, scope, readerService, q, location;
+//    var fs = require('fs');
+    var controller, scope, readerService, q, location, data;
 
-    beforeEach(module('financeApplication.controllers', 'financeApplication.services'));
-    beforeEach(inject(function ($rootScope, $controller, XLSXReaderService, $q, $location) {
+    beforeEach(module('financeApplication.controllers', 'financeApplication.services', 'served/data.json'));
+    beforeEach(inject(function ($rootScope, $controller, XLSXReaderService, $q, $location, _servedData_) {
         scope = $rootScope.$new();
         controller = $controller('UploadController', {$scope: scope});
         readerService = XLSXReaderService;
         q = $q;
         location = $location;
+        data = _servedData_;
 
     }));
+
+//    fs.readFile(filename, 'utf8', function (err, data) {
+//        if (err) {
+//            console.log('Error: ' + err);
+//            return;
+//        }
+//
+//        data = JSON.parse(data);
+//
+//        console.dir(data);
+//    });
 
     it("should have UploadController defined", function () {
         expect(controller).toBeDefined();
@@ -53,25 +66,20 @@ describe('UploadController', function () {
 
             it('should know when the file is successfully uploaded', function () {
 
-                var expectedSheets = [
-                    {'IS-ZA-Actuals': {}},
-                    {'IS-UG-Actuals': {}},
-                    {'Q2-ZA Plan': {}},
-                    {'Q2-UG Plan': {}}
-                ];
-                simulateUpload(expectedSheets);
+                var expectedSheets = {
+                    'IS-ZA-Actuals': {},
+                    'IS-UG-Actuals': {},
+                    'Q2-ZA Plan': {},
+                    'Q2-UG Plan': {}};
+                spyOn(readerService, 'sheets').andReturn(expectedSheets);
                 var message = scope.uploadConfirmationMessage();
-                expect(scope.uploadSuccessful).toBeTruthy();
                 expect(message).toEqual('Successfully uploaded file')
             });
 
             it('should know when the IS-UG-Actuals and Q2-ZA-Plan sheet are missing', function () {
-                var expectedSheets = [
-                    {'IS-ZA-Actuals': {}}
-                ];
-                simulateUpload(expectedSheets);
+                var expectedSheets = {'IS-ZA-Actuals': {}};
+                spyOn(readerService, 'sheets').andReturn(expectedSheets);
                 var message = scope.uploadConfirmationMessage();
-                expect(scope.uploadSuccessful()).toBeFalsy();
                 expect(message).toEqual('The excel file uploaded does not contain IS-UG-Actuals, Q2-ZA Plan, Q2-UG Plan')
             });
 
@@ -100,15 +108,26 @@ describe('UploadController', function () {
     });
 
     describe('financials', function () {
-        it('should know the region for which financials are being displayed', function () {
-            scope.financials = {"region": "Johannesburg"};
-            expect(scope.region()).toBe('Johannesburg');
-        });
 
         it("should know how to go back to the upload page", function () {
             scope.backToUploadPage();
             expect(location.absUrl()).toContain('upload');
         });
+
+        xit("spec name", function () {
+            var netRevenue = {region: 'Johannesburg', data: [{
+                "indicator": "Net Revenue",
+                "serialNumber": 1,
+                "type": "Currency",
+                "values": [
+                    {"period": "June", "amount":  423260.95, "type": "Plan"},
+                    {"period": "June", "amount":  423260.95, "type": "Actual"}
+                ]
+            }]};
+            scope.sheets = data;
+            expect(scope.financialsFor('JHB')).toEqual(netRevenue);
+        });
+
     });
 
 

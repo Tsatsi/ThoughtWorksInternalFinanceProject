@@ -19,9 +19,9 @@ app.directive('financialInput', function () {
             header: '@'
         },
         templateUrl: 'partials/financialsInput.html',
-        transclude: true
     };
 });
+
 
 
 
