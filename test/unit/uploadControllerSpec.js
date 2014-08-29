@@ -47,12 +47,6 @@ describe('UploadController', function () {
                 expect(scope.uploadComplete).toBeTruthy();
             });
 
-            it('should know all the sheets in the uploaded file', function () {
-                var expectedSheets = ['sheet 1', 'sheet 2'];
-                simulateUpload(expectedSheets);
-                expect(scope.sheets).toBe(expectedSheets);
-            });
-
             it('should know when the file is successfully uploaded', function () {
 
                 var expectedSheets = {'IS-ZA-Actuals': {}, 'IS-UG-Actuals': {}, 'Q2-ZA Plan': {}, 'Q2-UG Plan': {}};

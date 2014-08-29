@@ -23,7 +23,7 @@ angular.module('financeApplication.services', [])
         var regions = {JHB: 'Johannesburg', KPL: 'Kampala', PAN: 'Pan Africa'};
 
 
-        var knownSheets = {plan: {JHB : 'Q2-ZA Plan', KPL: 'Q2-UG Plan'}, actual: {JHB: 'IS-ZA-Actuals', KPL: 'IS-UG-Actuals'}};
+        var knownSheets = {plan: {JHB: 'Q2-ZA Plan', KPL: 'Q2-UG Plan'}, actual: {JHB: 'IS-ZA-Actuals', KPL: 'IS-UG-Actuals'}};
 
 
         var indicators = [
@@ -74,7 +74,7 @@ angular.module('financeApplication.services', [])
 
                 var total = (jhbAmount + kplAmount) / 2 * 100;
 
-                amount = isPercentageValue ? isNaN(total) ?  0 : total : jhbAmount + kplAmount || 0;
+                amount = isPercentageValue ? isNaN(total) ? 0 : total : jhbAmount + kplAmount || 0;
             }
             else {
                 var value = findValue(sheets[region], indicator, period);
@@ -85,26 +85,66 @@ angular.module('financeApplication.services', [])
 
         };
 
-        service.financials = function(region) {
+        function accummulativeAmount(region, indicator, format, sheets) {
+            var totalAmount = 0;
+            var date = moment().startOf('year');
+            var endDate = moment().add(1, 'months');
+
+            while (date.isBefore(endDate)) {
+                totalAmount += amount(region, indicator, format(date), sheets);
+                date = date.add(1, 'months');
+            }
+            var percentageValue = indicator.indexOf('%') > -1;
+            return percentageValue ? totalAmount / endDate.month() : totalAmount;
+        }
+
+        var formatPlan = function (date) {
+            return date.format('MMM').toUpperCase();
+        };
+
+        var formatActual = function (date) {
+            return date.format('MMMM');
+        };
+
+        service.financials = function (region, cumulative) {
             var serialNumber = 1;
-            financials =  region == undefined ? financials : {region: regions[region], data: _.transform(indicators, function (results, indicator) {
-                var periodActual = moment().format('MMMM');
-                var periodPlan = moment().format('MMM').toUpperCase();
+            var type = function () {
+                return cumulative ? regions[region] + ' Accumulative Financials' : regions[region] + ' Financials';
+            };
+            financials = region == undefined ? financials :
+                {region: regions[region], type: type(), data: _.transform(indicators, function (results, indicator) {
+
+                var currentDate = moment();
+                var totalAmountActual;
+                var totalAmountPlan;
+
+                var periodActual = formatActual(currentDate);
+                var periodPlan = formatPlan(currentDate);
+                if (cumulative) {
+                    totalAmountActual = accummulativeAmount(region, indicator.actual, formatActual, knownSheets['actual']);
+                    totalAmountPlan = accummulativeAmount(region, indicator.plan, formatPlan, knownSheets['plan']);
+                }
+                else {
+                    totalAmountActual = amount(region, indicator.actual, periodActual, knownSheets['actual']);
+                    totalAmountPlan = amount(region, indicator.plan, periodPlan, knownSheets['plan']);
+                }
+
                 results.push({
                     "indicator": indicator.name,
-                    "serialNumber": serialNumber ++,
+                    "serialNumber": serialNumber++,
                     "type": "Currency",
                     "values": [
-                        {"period": periodActual, "amount": amount(region, indicator.plan, periodPlan, knownSheets['plan']), "type": "Plan"},
-                        {"period": periodActual, "amount": amount(region, indicator.actual, periodActual, knownSheets['actual']), "type": "Actual"}
+                        {"period": periodActual, "amount": totalAmountPlan, "type": "Plan"},
+                        {"period": periodActual, "amount": totalAmountActual, "type": "Actual"}
                     ]
                 });
             })};
             return financials;
         };
 
+
         service.sheets = function () {
-          return sheets;
+            return sheets;
         };
 
         return service;
