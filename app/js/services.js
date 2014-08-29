@@ -22,10 +22,9 @@ angular.module('financeApplication.services', [])
 
         var regions = {JHB: 'Johannesburg', KPL: 'Kampala', PAN: 'Pan Africa'};
 
-        var knownSheets = {
-            JHB: {plan: 'Q2-ZA Plan', actual: 'IS-ZA-Actuals'},
-            KPL: {plan: 'Q2-UG Plan', actual: 'IS-UG-Actuals'}
-        };
+
+        var knownSheets = {plan: {JHB : 'Q2-ZA Plan', KPL: 'Q2-UG Plan'}, actual: {JHB: 'IS-ZA-Actuals', KPL: 'IS-UG-Actuals'}};
+
 
         var indicators = [
             {name: 'Net Revenue', plan: 'Net Revenue', actual: 'Net Revenue'},
@@ -64,19 +63,40 @@ angular.module('financeApplication.services', [])
 
             return deferred.promise;
         };
+
+        var amount = function (region, indicator, period, sheets) {
+            var amount;
+            var isPercentageValue = indicator.indexOf('%') > -1;
+
+            if (region === 'PAN') {
+                var jhbAmount = findValue(sheets['JHB'], indicator, period);
+                var kplAmount = findValue(sheets['KPL'], indicator, period);
+
+                var total = (jhbAmount + kplAmount) / 2 * 100;
+
+                amount = isPercentageValue ? isNaN(total) ?  0 : total : jhbAmount + kplAmount || 0;
+            }
+            else {
+                var value = findValue(sheets[region], indicator, period);
+                amount = isPercentageValue ? isNaN(value) ? 0 : value * 100 : value;
+            }
+            console.log(amount);
+            return amount;
+
+        };
+
         service.financials = function(region) {
             var serialNumber = 1;
             financials =  region == undefined ? financials : {region: regions[region], data: _.transform(indicators, function (results, indicator) {
                 var periodActual = moment().format('MMMM');
                 var periodPlan = moment().format('MMM').toUpperCase();
-                console.log(periodPlan);
                 results.push({
                     "indicator": indicator.name,
                     "serialNumber": serialNumber ++,
                     "type": "Currency",
                     "values": [
-                        {"period": periodActual, "amount": findValue(knownSheets[region].plan, indicator.plan, periodPlan), "type": "Plan"},
-                        {"period": periodActual, "amount": findValue(knownSheets[region].actual, indicator.actual, periodActual), "type": "Actual"}
+                        {"period": periodActual, "amount": amount(region, indicator.plan, periodPlan, knownSheets['plan']), "type": "Plan"},
+                        {"period": periodActual, "amount": amount(region, indicator.actual, periodActual, knownSheets['actual']), "type": "Actual"}
                     ]
                 });
             })};

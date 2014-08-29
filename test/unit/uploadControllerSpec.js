@@ -17,17 +17,6 @@ describe('UploadController', function () {
 
     }));
 
-//    fs.readFile(filename, 'utf8', function (err, data) {
-//        if (err) {
-//            console.log('Error: ' + err);
-//            return;
-//        }
-//
-//        data = JSON.parse(data);
-//
-//        console.dir(data);
-//    });
-
     it("should have UploadController defined", function () {
         expect(controller).toBeDefined();
     });
@@ -66,11 +55,8 @@ describe('UploadController', function () {
 
             it('should know when the file is successfully uploaded', function () {
 
-                var expectedSheets = {
-                    'IS-ZA-Actuals': {},
-                    'IS-UG-Actuals': {},
-                    'Q2-ZA Plan': {},
-                    'Q2-UG Plan': {}};
+                var expectedSheets = {'IS-ZA-Actuals': {}, 'IS-UG-Actuals': {}, 'Q2-ZA Plan': {}, 'Q2-UG Plan': {}};
+
                 spyOn(readerService, 'sheets').andReturn(expectedSheets);
                 var message = scope.uploadConfirmationMessage();
                 expect(message).toEqual('Successfully uploaded file')
@@ -112,20 +98,6 @@ describe('UploadController', function () {
         it("should know how to go back to the upload page", function () {
             scope.backToUploadPage();
             expect(location.absUrl()).toContain('upload');
-        });
-
-        xit("spec name", function () {
-            var netRevenue = {region: 'Johannesburg', data: [{
-                "indicator": "Net Revenue",
-                "serialNumber": 1,
-                "type": "Currency",
-                "values": [
-                    {"period": "June", "amount":  423260.95, "type": "Plan"},
-                    {"period": "June", "amount":  423260.95, "type": "Actual"}
-                ]
-            }]};
-            scope.sheets = data;
-            expect(scope.financialsFor('JHB')).toEqual(netRevenue);
         });
 
     });

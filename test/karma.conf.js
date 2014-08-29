@@ -16,25 +16,13 @@ module.exports = function (config) {
         ],
 
         ngJson2JsPreprocessor: {
-            // strip this from the file path
             stripPrefix: 'app/assets/',
-            // prepend this to the
             prependPrefix: 'served/'
-
-            /* or define a custom transform function
-             cacheIdFromPath: function(filepath) {
-             return cacheId;
-             }
-             */
         },
 
-        // coverage reporter generates the coverage
         reporters: ['progress', 'coverage'],
 
         preprocessors: {
-            // source files, that you wanna generate coverage for
-            // do not include tests or libraries
-            // (these files will be instrumented by Istanbul)
             'app/js/controllers.js': ['coverage'],
             'app/js/directives.js': ['coverage'],
             'app/js/filters.js': ['coverage'],

@@ -22,4 +22,20 @@ describe('service', function () {
         });
     });
 
+
+    xdescribe("financials", function () {
+        it("should know how to format financials for Johannesburg", function () {
+            var netRevenue = {region: 'Johannesburg', data: [{
+                "indicator": "Net Revenue",
+                "serialNumber": 1,
+                "type": "Currency",
+                "values": [
+                    {"period": "June", "amount":  423260.95, "type": "Plan"},
+                    {"period": "June", "amount":  423260.95, "type": "Actual"}
+                ]
+            }]};
+            expect(service.financialsFor('JHB')).toEqual(netRevenue);
+        });
+    });
+
 });
