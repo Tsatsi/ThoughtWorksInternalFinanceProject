@@ -18,7 +18,7 @@ app.directive('financialInput', function () {
         scope: {
             header: '@'
         },
-        templateUrl: 'partials/financialsInput.html',
+        templateUrl: 'partials/financialsInput.html'
     };
 });
 

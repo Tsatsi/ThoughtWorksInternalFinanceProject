@@ -112,7 +112,7 @@ angular.module('financeApplication.services', [])
                 return cumulative ? regions[region] + ' Accumulative Financials' : regions[region] + ' Financials';
             };
             financials = region == undefined ? financials :
-                {region: regions[region], type: type(), data: _.transform(indicators, function (results, indicator) {
+            {region: regions[region], type: type(), data: _.transform(indicators, function (results, indicator) {
 
                 var currentDate = moment();
                 var totalAmountActual;
@@ -120,23 +120,40 @@ angular.module('financeApplication.services', [])
 
                 var periodActual = formatActual(currentDate);
                 var periodPlan = formatPlan(currentDate);
-                if (cumulative) {
-                    totalAmountActual = accummulativeAmount(region, indicator.actual, formatActual, knownSheets['actual']);
-                    totalAmountPlan = accummulativeAmount(region, indicator.plan, formatPlan, knownSheets['plan']);
-                }
-                else {
-                    totalAmountActual = amount(region, indicator.actual, periodActual, knownSheets['actual']);
-                    totalAmountPlan = amount(region, indicator.plan, periodPlan, knownSheets['plan']);
-                }
+//                if (cumulative) {
+//                    totalAmountActual = accummulativeAmount(region, indicator.actual, formatActual, knownSheets['actual']);
+//                    totalAmountPlan = accummulativeAmount(region, indicator.plan, formatPlan, knownSheets['plan']);
+//                }
+//                else {
+//                    totalAmountActual = amount(region, indicator.actual, periodActual, knownSheets['actual']);
+//                    totalAmountPlan = amount(region, indicator.plan, periodPlan, knownSheets['plan']);
+//                }
+
+                var values = function (cumulative) {
+                    var result = [];
+
+                    var date = cumulative ? moment().startOf('year') : moment();
+                    var endDate = moment();
+
+                    while (date.month() <= endDate.month()) {
+                        var amountActual = amount(region, indicator.actual, formatActual(date), knownSheets['actual']);
+                        var amountPlan = amount(region, indicator.plan, formatPlan(date), knownSheets['plan']);
+
+                        if (!cumulative) {
+                            result.push({"period": formatActual(date), "amount": amountPlan, "type": "Plan"});
+                        }
+
+                        result.push({"period": formatActual(date), "amount": amountActual, "type": "Actual"});
+                        date = date.add(1, 'months');
+                    }
+                    return result;
+                };
 
                 results.push({
                     "indicator": indicator.name,
                     "serialNumber": serialNumber++,
                     "type": "Currency",
-                    "values": [
-                        {"period": periodActual, "amount": totalAmountPlan, "type": "Plan"},
-                        {"period": periodActual, "amount": totalAmountActual, "type": "Actual"}
-                    ]
+                    "values": values(cumulative)
                 });
             })};
             return financials;

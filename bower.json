@@ -13,9 +13,8 @@
     "lodash": "~2.4.1",
     "bootstrap": "~3.2.0",
     "js-xlsx": "~0.7.7",
-    "momentjs": "~2.8.2"
+    "momentjs": "~2.8.2",
+    "highcharts": "~4.0.3"
   },
-  "devDependencies": {
-
-  }
+  "devDependencies": {}
 }
