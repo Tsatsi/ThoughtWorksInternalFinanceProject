@@ -81,7 +81,8 @@ angular.module('financeApplication.services', [])
                         "indicator": indicator.name,
                         "serialNumber": serialNumber++,
                         "type": "Currency",
-                        "values": values(cumulative, region, indicator)
+                        "values": values(cumulative, region, indicator),
+                        "totals": {plan: 1, actual:2}
                     }
                 );
             })
