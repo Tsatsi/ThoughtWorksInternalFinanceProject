@@ -89,10 +89,10 @@ describe('UploadController', function () {
 
     describe('financials', function () {
 
-        it("should know how to go back to the upload page", function () {
-            scope.backToUploadPage();
-            expect(location.absUrl()).toContain('upload');
-        });
+//        it("should know how to go back to the upload page", function () {
+//            scope.backToUploadPage();
+//            expect(location.absUrl()).toContain('upload');
+//        });
 
     });
 

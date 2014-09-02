@@ -2,29 +2,12 @@
 
 /* Services */
 angular.module('financeApplication.services', [])
-    .factory("XLSXReaderService", ['$q', function ($q) {
-        var sheets, financials;
-        var service = function (data) {
 
-        };
-
-        var XLSXReader = function (file, handler) {
-            var obj = {};
-            XLSXReader.loadFile(obj, file, handler);
-            return obj;
-        };
-
-        var findValue = function (sheet, row, column) {
-            var rowKey = _.findKey(sheets[ sheet], {'h': row}).replace(/[A-Z]/g, '');
-            var columnKey = _.findKey(sheets[sheet], {'h': column}).replace(/[0-9]/g, '');
-            return sheets[sheet][columnKey + rowKey]['v'];
-        };
-
+    .factory('FinanceModel', ['XLSXReaderService', function (XLSXReaderService) {
+        var financials;
+        var sheets = XLSXReaderService.sheets();
         var regions = {JHB: 'Johannesburg', KPL: 'Kampala', PAN: 'Pan Africa'};
-
-
         var knownSheets = {plan: {JHB: 'Q2-ZA Plan', KPL: 'Q2-UG Plan'}, actual: {JHB: 'IS-ZA-Actuals', KPL: 'IS-UG-Actuals'}};
-
 
         var indicators = [
             {name: 'Net Revenue', plan: 'Net Revenue', actual: 'Net Revenue'},
@@ -34,6 +17,103 @@ angular.module('financeApplication.services', [])
             {name: 'Operating Contribution', plan: 'OC', actual: 'Operating Contribution'},
             {name: 'Client Gross Margin %', plan: 'CGM %', actual: 'Client Gross Margin %'}
         ];
+
+        var amount = function (region, indicator, period, sheets) {
+            var amount;
+            var isPercentageValue = indicator.indexOf('%') > -1;
+
+            if (region === 'PAN') {
+                var jhbAmount = findValue(sheets['JHB'], indicator, period);
+                var kplAmount = findValue(sheets['KPL'], indicator, period);
+
+                var total = (jhbAmount + kplAmount) / 2 * 100;
+
+                amount = isPercentageValue ? isNaN(total) ? 0 : total : jhbAmount + kplAmount || 0;
+            }
+            else {
+                var value = findValue(sheets[region], indicator, period);
+                amount = isPercentageValue ? isNaN(value) ? 0 : value * 100 : value;
+            }
+            return amount;
+
+        };
+
+        var findValue = function (sheet, row, column) {
+            var rowKey = _.findKey(sheets[ sheet], {'h': row}).replace(/[A-Z]/g, '');
+            var columnKey = _.findKey(sheets[sheet], {'h': column}).replace(/[0-9]/g, '');
+            return sheets[sheet][columnKey + rowKey]['v'];
+        };
+
+        var formatPlan = function (date) {
+            return date.format('MMM').toUpperCase();
+        };
+
+        var formatActual = function (date) {
+            return date.format('MMMM');
+        };
+
+        var values = function (cumulative, region, indicator) {
+            var result = [];
+
+            var startDate = cumulative ? moment().startOf('year') : moment();
+            var endDate = moment();
+
+            while (startDate.month() <= endDate.month()) {
+                var amountActual = amount(region, indicator.actual, formatActual(startDate), knownSheets['actual']);
+                var amountPlan = amount(region, indicator.plan, formatPlan(startDate), knownSheets['plan']);
+
+                result.push({"period": formatActual(startDate), "amount": amountPlan, "type": "Plan"});
+                result.push({"period": formatActual(startDate), "amount": amountActual, "type": "Actual"});
+                startDate = startDate.add(1, 'months');
+            }
+            return result;
+        };
+
+        var service = function() {
+
+        };
+
+        var data = function (region, cumulative){
+            var serialNumber = 1;
+            return _.transform(indicators, function (results, indicator) {
+                results.push(
+                    {
+                        "indicator": indicator.name,
+                        "serialNumber": serialNumber++,
+                        "type": "Currency",
+                        "values": values(cumulative, region, indicator)
+                    }
+                );
+            })
+        };
+
+        service.financials = function (region, cumulative) {
+            var type = cumulative ? regions[region] + ' Accumulative Financials' : regions[region] + ' Financials';
+            if (region) {
+                financials = {
+                    region: regions[region],
+                    type: type,
+                    data: data(region, cumulative)
+                };
+            }
+            return financials;
+
+        };
+
+        return service;
+
+    }])
+    .factory("XLSXReaderService", ['$q', function ($q) {
+        var sheets;
+        var service = function (data) {
+
+        };
+
+        var XLSXReader = function (file, handler) {
+            var obj = {};
+            XLSXReader.loadFile(obj, file, handler);
+            return obj;
+        };
 
         XLSXReader.loadFile = function (obj, file, handler) {
 
@@ -63,102 +143,6 @@ angular.module('financeApplication.services', [])
 
             return deferred.promise;
         };
-
-        var amount = function (region, indicator, period, sheets) {
-            var amount;
-            var isPercentageValue = indicator.indexOf('%') > -1;
-
-            if (region === 'PAN') {
-                var jhbAmount = findValue(sheets['JHB'], indicator, period);
-                var kplAmount = findValue(sheets['KPL'], indicator, period);
-
-                var total = (jhbAmount + kplAmount) / 2 * 100;
-
-                amount = isPercentageValue ? isNaN(total) ? 0 : total : jhbAmount + kplAmount || 0;
-            }
-            else {
-                var value = findValue(sheets[region], indicator, period);
-                amount = isPercentageValue ? isNaN(value) ? 0 : value * 100 : value;
-            }
-            console.log(amount);
-            return amount;
-
-        };
-
-        function accummulativeAmount(region, indicator, format, sheets) {
-            var totalAmount = 0;
-            var date = moment().startOf('year');
-            var endDate = moment().add(1, 'months');
-
-            while (date.isBefore(endDate)) {
-                totalAmount += amount(region, indicator, format(date), sheets);
-                date = date.add(1, 'months');
-            }
-            var percentageValue = indicator.indexOf('%') > -1;
-            return percentageValue ? totalAmount / endDate.month() : totalAmount;
-        }
-
-        var formatPlan = function (date) {
-            return date.format('MMM').toUpperCase();
-        };
-
-        var formatActual = function (date) {
-            return date.format('MMMM');
-        };
-
-        service.financials = function (region, cumulative) {
-            var serialNumber = 1;
-            var type = function () {
-                return cumulative ? regions[region] + ' Accumulative Financials' : regions[region] + ' Financials';
-            };
-            financials = region == undefined ? financials :
-            {region: regions[region], type: type(), data: _.transform(indicators, function (results, indicator) {
-
-                var currentDate = moment();
-                var totalAmountActual;
-                var totalAmountPlan;
-
-                var periodActual = formatActual(currentDate);
-                var periodPlan = formatPlan(currentDate);
-//                if (cumulative) {
-//                    totalAmountActual = accummulativeAmount(region, indicator.actual, formatActual, knownSheets['actual']);
-//                    totalAmountPlan = accummulativeAmount(region, indicator.plan, formatPlan, knownSheets['plan']);
-//                }
-//                else {
-//                    totalAmountActual = amount(region, indicator.actual, periodActual, knownSheets['actual']);
-//                    totalAmountPlan = amount(region, indicator.plan, periodPlan, knownSheets['plan']);
-//                }
-
-                var values = function (cumulative) {
-                    var result = [];
-
-                    var date = cumulative ? moment().startOf('year') : moment();
-                    var endDate = moment();
-
-                    while (date.month() <= endDate.month()) {
-                        var amountActual = amount(region, indicator.actual, formatActual(date), knownSheets['actual']);
-                        var amountPlan = amount(region, indicator.plan, formatPlan(date), knownSheets['plan']);
-
-                        if (!cumulative) {
-                            result.push({"period": formatActual(date), "amount": amountPlan, "type": "Plan"});
-                        }
-
-                        result.push({"period": formatActual(date), "amount": amountActual, "type": "Actual"});
-                        date = date.add(1, 'months');
-                    }
-                    return result;
-                };
-
-                results.push({
-                    "indicator": indicator.name,
-                    "serialNumber": serialNumber++,
-                    "type": "Currency",
-                    "values": values(cumulative)
-                });
-            })};
-            return financials;
-        };
-
 
         service.sheets = function () {
             return sheets;

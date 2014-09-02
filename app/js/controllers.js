@@ -10,9 +10,13 @@ angular.module('financeApplication.controllers', ['financeApplication.services']
         var successMessage = 'Successfully uploaded file';
         var failureMessage = 'The excel file uploaded does not contain ';
         $scope.upload = function (file) {
-            XLSXReaderService.readFile(file[0]).then(function () {
+            XLSXReaderService.readFile(file[0]).then(function() {
+                if ($scope.uploadSuccessful())  {
+                    $location.path('/dashboard');
+                }
                 $scope.uploadComplete = true;
             });
+
         };
 
         $scope.uploadConfirmationMessage = function () {
@@ -34,23 +38,6 @@ angular.module('financeApplication.controllers', ['financeApplication.services']
         $scope.messageStyle = function () {
             return $scope.uploadSuccessful() ? 'alert alert-success' : 'alert alert-danger alert-error';
         };
-
-        $scope.backToUploadPage = function () {
-            $location.path('/upload');
-        };
-
-        $scope.financialsFor = function (region, cumulative){
-            return XLSXReaderService.financials(region, cumulative);
-        };
-
-        $scope.go = function () {
-            $location.path('/financials');
-        };
-
-        $scope.header = function () {
-
-        };
-
     }])
     .controller('GraphController',['$scope', function(){
 
@@ -74,5 +61,35 @@ angular.module('financeApplication.controllers', ['financeApplication.services']
             $scope.lineChartYData=data.yData
             $scope.lineChartXData=data.xData
         }
+    }])
+    .controller('FinancialsController', ['$scope', '$location', 'FinanceModel', function ($scope, $location, FinanceModel) {
+
+        (function () {
+            $scope.financials = FinanceModel.financials();
+            console.log(JSON.stringify($scope.financials, null, 4));
+
+
+        })();
+
+        $scope.backToDashboard = function () {
+            $location.path('/dashboard');
+        };
+
+        var data = _.transform($scope.financials, function(result, value) {
+
+        });
+
+
+    }])
+    .controller('DashboardController', ['$scope', 'FinanceModel', '$location', function ($scope, FinanceModel, $location) {
+
+        $scope.financials = function (region, cumulative){
+            FinanceModel.financials(region, cumulative);
+            $location.path('/financials');
+        };
+
+        $scope.backToUploadPage = function () {
+            $location.path('/upload');
+        };
     }]);
 

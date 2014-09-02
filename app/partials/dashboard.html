@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-sm-6 col-md-4 financials-block">
+        <div class="thumbnail">
+            <div class="caption">
+                <h3 class="">Financials</h3>
+                <img src="img/finance.jpg" alt="..." class="img-financials">
+                <p class="financials-buttons">
+                    <a ng-click="financials('JHB');" class="btn btn-default" role="button">Johannesburg</a>
+                    <a ng-click="financials('KPL');" class="btn btn-default" role="button">Kampala</a>
+                    <a ng-click="financials('PAN');" class="btn btn-default" role="button">Pan Africa</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4 financials-block">
+        <div class="thumbnail">
+            <div class="caption">
+                <h3 class="">Accumulative Financials</h3>
+                <img src="img/acc.jpg" alt="..." class="img-financials">
+                <p class="financials-buttons">
+                    <a ng-click="financials('JHB', true);" class="btn btn-default" role="button">Johannesburg</a>
+                    <a ng-click="financials('KPL', true);" class="btn btn-default" role="button">Kampala</a>
+                    <a ng-click="financials('PAN', true);" class="btn btn-default" role="button">Pan Africa</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4 financials-block">
+        <div class="thumbnail">
+            <div class="caption">
+                <h3 class="">OPEX</h3>
+                <img src="img/OPEX.jpg" alt="..." class="img-financials">
+                <p class="financials-buttons">
+                    <a href="#" class="btn btn-default" role="button">Johannesburg</a>
+                    <a href="#" class="btn btn-default" role="button">Kampala</a>
+                    <a href="#" class="btn btn-default" role="button">Pan Africa</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="nav-buttons">
+    <input ng-click="backToUploadPage()" class="btn btn-default" type="button" id="back-btn" value="Back to Upload page">
+</div>
