@@ -131,3 +131,7 @@ hr {
 .financials-buttons {
     text-align: center;
 }
+
+.financial-row {
+    cursor: pointer;
+}

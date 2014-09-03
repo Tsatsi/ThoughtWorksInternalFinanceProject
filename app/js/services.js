@@ -75,21 +75,42 @@ angular.module('financeApplication.services', [])
 
         var data = function (region, cumulative){
             var serialNumber = 1;
+
             return _.transform(indicators, function (results, indicator) {
+                var allValues = values(cumulative, region, indicator);
+                var isPercentageValue = indicator.name.indexOf('%') > -1;
+                var totalAmount = function (type) {
+
+                    var valuesByType = _.filter(allValues, function(value) {
+                        return value.type === type;
+                    });
+
+                    var totalAmount = _.reduce(valuesByType, function(sum, entry) {
+                        return sum + parseFloat(entry.amount);
+                    }, 0);
+                    return isPercentageValue ? totalAmount / valuesByType.length : totalAmount;
+                };
+
                 results.push(
                     {
                         "indicator": indicator.name,
                         "serialNumber": serialNumber++,
                         "type": "Currency",
-                        "values": values(cumulative, region, indicator),
-                        "totals": {plan: 1, actual:2}
+                        "values": allValues,
+                        "ytd": {
+                                  period: formatActual(moment()),
+                                  amounts:{
+                                            plan: totalAmount('Plan'),
+                                            actual: totalAmount('Actual')
+                                          }
+                                }
                     }
                 );
             })
         };
 
         service.financials = function (region, cumulative) {
-            var type = cumulative ? regions[region] + ' Accumulative Financials' : regions[region] + ' Financials';
+            var type = cumulative ? 'Accumulative Financials' : 'Financials';
             if (region) {
                 financials = {
                     region: regions[region],
