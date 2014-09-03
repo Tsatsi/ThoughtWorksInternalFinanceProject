@@ -1,9 +1,7 @@
 'use strict';
 
-
 describe('UploadController', function () {
 
-//    var fs = require('fs');
     var controller, scope, readerService, q, location, data;
 
     beforeEach(module('financeApplication.controllers', 'financeApplication.services', 'served/data.json'));
@@ -47,13 +45,20 @@ describe('UploadController', function () {
                 expect(scope.uploadComplete).toBeTruthy();
             });
 
+            it('should redirect to dashboard when upload is successful', function () {
+                spyOn(scope, 'uploadSuccessful').andReturn(true);
+                spyOn(location, 'path');
+                simulateUpload({});
+                expect(location.path).toHaveBeenCalledWith('/dashboard');
+            });
+
             it('should know when the file is successfully uploaded', function () {
 
                 var expectedSheets = {'IS-ZA-Actuals': {}, 'IS-UG-Actuals': {}, 'Q2-ZA Plan': {}, 'Q2-UG Plan': {}};
 
                 spyOn(readerService, 'sheets').andReturn(expectedSheets);
                 var message = scope.uploadConfirmationMessage();
-                expect(message).toEqual('Successfully uploaded file')
+                expect(message).toEqual('Successfully uploaded file');
             });
 
             it('should know when the IS-UG-Actuals and Q2-ZA-Plan sheet are missing', function () {
@@ -77,6 +82,8 @@ describe('UploadController', function () {
                 expect(scope.messageStyle()).toBe('alert alert-success');
             });
 
+;
+
             var simulateUpload = function (expectedSheets) {
                 var deferred = q.defer();
                 deferred.resolve(expectedSheets);
@@ -87,14 +94,7 @@ describe('UploadController', function () {
         });
     });
 
-    describe('financials', function () {
 
-//        it("should know how to go back to the upload page", function () {
-//            scope.backToUploadPage();
-//            expect(location.absUrl()).toContain('upload');
-//        });
-
-    });
 
 
 });

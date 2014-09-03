@@ -41,9 +41,8 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
     }])
     .controller('FinancialsController', ['$scope', '$location', 'FinanceModel', function ($scope, $location, FinanceModel) {
 
-        var data = function (indicator) {
-            var data = _.find($scope.financials.data, indicator);
-
+        var data = function () {
+            var data = _.find($scope.financials.data, $scope.indicator);
 
             var plannedValues = _.filter(data.values, function (value) {
                 return value.type === 'Plan';
@@ -54,15 +53,15 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
             });
 
             var months = _.transform(plannedValues, function (result, value) {
-                    result.push(value.period);
+                result.push(value.period);
             });
 
             var planAmounts = _.transform(plannedValues, function (result, value) {
-                    result.push(value.amount);
+                result.push(value.amount);
             });
 
             var actualAmounts = _.transform(actualValues, function (result, value) {
-                    result.push(value.amount);
+                result.push(value.amount);
             });
 
             var result = {
@@ -78,18 +77,7 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
 
         };
 
-        $scope.var1 = moment();
-        $scope.var2 = moment().format('MMMM YYYY');
-
-        $scope.$watch('var1', function(val) {
-
-            $scope.var2 = moment($scope.var1).format('MMMM YYYY');
-        });
-
-        (function () {
-            $scope.financials = FinanceModel.financials();
-
-        })();
+        $scope.financials = FinanceModel.financials();
 
         $scope.backToDashboard = function () {
             $location.path('/dashboard');
@@ -98,17 +86,28 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
         $scope.chartVisible = false;
 
 
+        var initializeChartData = function () {
+            $scope.chartData = data();
+            $scope.chartYData = $scope.chartData.yData;
+            $scope.chartXData = $scope.chartData.xData;
+        };
 
-        $scope.showChart = function (visible, indicator) {
-            $scope.chartVisible = visible;
-            if (indicator) {
-                var result = data({indicator: indicator});
-                $scope.graphType = $scope.financials.type === 'Accumulative Financials' ? 'line' : 'column' ;
-                $scope.graphTitle = indicator;
-                $scope.lineChartYData = result.yData;
-                $scope.lineChartXData = result.xData;
-            }
-        }
+        $scope.showChart = function (indicator) {
+            $scope.chartVisible = true;
+            $scope.chartIndicator = indicator;
+            initializeChartData();
+        };
+
+
+
+        $scope.$watch('financials', function () {
+            $scope.chartType = $scope.financials.type === 'Accumulative Financials' ? 'line' : 'column';
+        });
+
+        $scope.hideChart = function () {
+            $scope.chartVisible = false;
+        };
+
 
 
 

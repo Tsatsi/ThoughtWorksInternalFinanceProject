@@ -13,7 +13,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="row in financials.data" ng-click="showChart(true, row.indicator)" class="financial-row">
+        <tr ng-repeat="row in financials.data" ng-click="showChart(row.indicator)" class="financial-row">
             <td>{{row.serialNumber}}</td>
             <td>{{row.indicator}}</td>
             <td>{{row.ytd.amounts.plan | currency:''}}</td>
@@ -33,8 +33,8 @@
     </div>
 </div>
 
-<chart id="chart" ng-show="chartVisible" title="graphTitle" graph-type="graphType" xData="lineChartXData"
-       yData="lineChartYData" xName="Month" yName="Value" subtitle="Plan and Actual vs Month"></chart>
+<chart id="chart" ng-show="chartVisible" title="chartIndicator" chart-type="chartType" xData="chartXData"
+       yData="chartYData" xName="Month" yName="Value" subtitle="Plan and Actual vs Month"></chart>
 <div ng-show="chartVisible" class="nav-buttons">
-    <input ng-click="showChart(false)" class="btn btn-default" type="button" id="back-btn" value="Back">
+    <input ng-click="hideChart()" class="btn btn-default" type="button" id="back-btn" value="Back">
 </div>

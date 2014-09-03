@@ -29,7 +29,6 @@ app.directive('chart', function () {
         replace: true,
         scope: '=',
         link: function (scope, element, attrs) {
-            console.log(element[0]);
             var opt = {
 
                 subtitle: {
@@ -66,9 +65,8 @@ app.directive('chart', function () {
                     y: 100,
                     borderWidth: 0
                 }
-            }
+            };
 
-            //Update when charts data changes
             scope.$watch(function (scope) {
 
                 return JSON.stringify({
@@ -77,7 +75,7 @@ app.directive('chart', function () {
                     },
                     chart: {
                         renderTo: 'chart',
-                        type: scope[attrs.graphType],
+                        type: scope[attrs.chartType],
                         marginRight: 130,
                         marginBottom: 40
                     },
@@ -89,9 +87,9 @@ app.directive('chart', function () {
                     }
                 });
             }, function (news) {
-                news = JSON.parse(news)
+                news = JSON.parse(news);
                 if (!news.series)return;
-                angular.extend(opt, news)
+                angular.extend(opt, news);
 
 
                 var chart = new Highcharts.Chart(opt);
