@@ -9,14 +9,23 @@ angular.module('financeApplication.services', [])
         var regions = {JHB: 'Johannesburg', KPL: 'Kampala', PAN: 'Pan Africa'};
         var knownSheets = {plan: {JHB: 'Q2-ZA Plan', KPL: 'Q2-UG Plan'}, actual: {JHB: 'IS-ZA-Actuals', KPL: 'IS-UG-Actuals'}};
 
-        var indicators = [
-            {name: 'Net Revenue', plan: 'Net Revenue', actual: 'Net Revenue'},
-            {name: 'Total Cost of Services', plan: 'Cost of Services', actual: 'Total Cost of Services'},
-            {name: 'Gross Profit %', plan: 'Gross Margin %', actual: 'Gross Profit %'},
-            {name: 'Total Operating Expenses', plan: 'OPEX', actual: 'Total Operating Expenses'},
-            {name: 'Operating Contribution', plan: 'OC', actual: 'Operating Contribution'},
-            {name: 'Client Gross Margin %', plan: 'CGM %', actual: 'Client Gross Margin %'}
-        ];
+        var indicators = {FINANCIALS: [
+                {name: 'Net Revenue', plan: 'Net Revenue', actual: 'Net Revenue'},
+                {name: 'Total Cost of Services', plan: 'Cost of Services', actual: 'Total Cost of Services'},
+                {name: 'Gross Profit %', plan: 'Gross Margin %', actual: 'Gross Profit %'},
+                {name: 'Total Operating Expenses', plan: 'OPEX', actual: 'Total Operating Expenses'},
+                {name: 'Operating Contribution', plan: 'OC', actual: 'Operating Contribution'},
+                {name: 'Client Gross Margin %', plan: 'CGM %', actual: 'Client Gross Margin %'}
+            ],  OPEX:[
+            {name: 'Business Development', plan: 'Business Development', actual: 'Business Development'},
+            {name:  'Engagement & Account Management', plan: 'E&AM', actual: 'Engagement & Account Management'},
+            {name:  'Marketing', plan: 'Marketing', actual: 'Marketing'},
+            {name:  'Recruiting', plan: 'Recruiting', actual: 'Recruiting'},
+            {name:  'IS Infrastructure', plan: 'IS Infrastrucure', actual: 'IS Infrastrucure'},
+            {name:  'People Development', plan: 'People Development', actual: 'People Development'},
+            {name:  'General & Administrative', plan: 'General & Administrative', actual: 'General & Administrative'}
+        ]};
+
 
         var amount = function (region, indicator, period, sheets) {
             var amount;
@@ -73,10 +82,10 @@ angular.module('financeApplication.services', [])
 
         };
 
-        var data = function (region, cumulative){
+        var data = function (region, cumulative, indicatorType){
             var serialNumber = 1;
 
-            return _.transform(indicators, function (results, indicator) {
+            return _.transform(indicators[indicatorType], function (results, indicator) {
                 var allValues = values(cumulative, region, indicator);
                 var isPercentageValue = indicator.name.indexOf('%') > -1;
                 var totalAmount = function (type) {
@@ -115,11 +124,22 @@ angular.module('financeApplication.services', [])
                 financials = {
                     region: regions[region],
                     type: type,
-                    data: data(region, cumulative)
+                    data: data(region, cumulative, 'FINANCIALS')
                 };
             }
             return financials;
 
+        };
+
+        service.opex = function(region){
+            if (region) {
+                financials = {
+                    region: regions[region],
+                    type: 'Operating Expenses',
+                    data: data(region, false, 'OPEX')
+                };
+            }
+            return financials;
         };
 
         return service;

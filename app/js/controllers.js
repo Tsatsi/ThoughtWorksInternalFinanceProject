@@ -98,8 +98,6 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
             initializeChartData();
         };
 
-
-
         $scope.$watch('financials', function () {
             $scope.chartType = $scope.financials.type === 'Accumulative Financials' ? 'line' : 'column';
         });
@@ -108,6 +106,17 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
             $scope.chartVisible = false;
         };
 
+//        $scope.months = function () {
+//            var result = [];
+//            var endDate = moment();
+//            var startDate = moment().startOf('year');
+//
+//            while(startDate.month() <= endDate.month()) {
+//                result.push(startDate.format('MMMM'));
+//                startDate.add( 1, 'months');
+//            }
+//            return result;
+//        }
 
 
 
@@ -119,8 +128,14 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
             $location.path('/financials');
         };
 
+        $scope.opex = function (region) {
+            FinanceModel.opex(region);
+            $location.path('/financials');
+        };
+
         $scope.backToUploadPage = function () {
             $location.path('/upload');
         };
+
     }]);
 

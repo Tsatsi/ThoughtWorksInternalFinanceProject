@@ -18,8 +18,7 @@ describe('DashboardController', function () {
     });
 
     describe('financials', function () {
-        it('should know how to initialise the financials model', function () {
-            spyOn(location, 'path');
+        it('should know how to initialise financials', function () {
             spyOn(financeModel, 'financials');
             scope.financials('region','cumulative');
             expect(financeModel.financials).toHaveBeenCalled();
@@ -34,8 +33,18 @@ describe('DashboardController', function () {
     });
 
     describe('operating expenses', function () {
-        it('should know how to initialise the opex model');
-        it('should redirect to the opex page when initialisation is complete');
+        it('should know how to initialise operating expenses', function () {
+            spyOn(financeModel, 'opex');
+            scope.opex('region');
+            expect(financeModel.opex).toHaveBeenCalled();
+        });
+
+        it('should redirect to the opex page when initialisation is complete', function() {
+            spyOn(location, 'path');
+            spyOn(financeModel, 'opex');
+            scope.opex('region');
+            expect(location.path).toHaveBeenCalledWith('/financials');
+        });
     });
 
 
