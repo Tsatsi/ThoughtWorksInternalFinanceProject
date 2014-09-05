@@ -16,7 +16,8 @@ app.directive('financialInput', function () {
     return {
         restrict: 'E',
         scope: {
-            header: '@'
+            header: '@',
+            ngModel: '='
         },
         templateUrl: 'partials/financialsInput.html'
     };
@@ -77,7 +78,8 @@ app.directive('chart', function () {
                         renderTo: 'chart',
                         type: scope[attrs.chartType],
                         marginRight: 130,
-                        marginBottom: 40
+                        marginBottom: 40,
+                        reflow: true
                     },
 
                     series: scope[attrs.ydata],

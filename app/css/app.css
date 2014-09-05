@@ -136,3 +136,8 @@ hr {
 .financial-row {
     cursor: pointer;
 }
+
+#chart {
+    height:50%;
+    width:70%;
+}

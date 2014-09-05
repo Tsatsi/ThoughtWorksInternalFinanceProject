@@ -1,40 +1,71 @@
 <div class="financials">
-    <h3 id="region">{{financials.region}} {{financials.type}}</h3>
-
     <div ng-show="!chartVisible">
-        <table class="table table-hover table-striped table-bordered table-condensed financials-table">
-            <thead>
-            <tr>
-                <th>Serial Number</th>
-                <th>Description</th>
-                <th>{{financials.data[0].ytd.period}} Plan</th>
-                <th>{{financials.data[0].ytd.period}} Actual</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="row in financials.data" ng-click="showChart(row.indicator)" class="financial-row">
-                <td>{{row.serialNumber}}</td>
-                <td>{{row.indicator}}</td>
-                <td>{{row.ytd.amounts.plan | currency:''}}</td>
-                <td>{{row.ytd.amounts.actual | currency:''}}</td>
-            </tr>
-            </tbody>
-        </table>
-        <div>
-            <form class="form-inline" role="form">
-                <financial-input header="Average Bill Rates"></financial-input>
-                <financial-input header="Average Utilization"></financial-input>
-            </form>
-            <div class="nav-buttons">
-                <input ng-click="backToDashboard()" class="btn btn-default" type="button" id="back-btn"
-                       value="Back to Dashboard">
+
+        <div class="panel panel-primary">
+            <!-- Default panel contents -->
+            <div class="panel-heading">{{financials.region}} {{financials.type}}</div>
+            <div class="panel-body">
+                <!--table-->
+                <table class="table table-hover table-striped table-condensed ">
+                    <thead>
+                    <tr>
+                        <th>Serial #</th>
+                        <th>Description</th>
+                        <th>{{financials.data[0].ytd.period}} Plan</th>
+                        <th>{{financials.data[0].ytd.period}} Actual</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="row in financials.data" ng-click="showChart(row.indicator)" class="financial-row">
+                        <td>{{row.serialNumber}}</td>
+                        <td>{{row.indicator}}</td>
+                        <td>{{row.ytd.amounts.plan | currency:''}}</td>
+                        <td>{{row.ytd.amounts.actual | currency:''}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--end of table-->
             </div>
+        </div>
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalLabel">{{financials.region}} {{financials.type}}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-inline" role="form" name="financialInputForm" novalidate="novalidate">
+                            <financial-input header="Average Bill Rates" ng-model="averageBillRate"></financial-input>
+                            <financial-input header="Average Utilization" ng-model="averageUtilisation"></financial-input>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" ng-click="cancel()" class="btn btn-default" >Clear</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="!financialInputForm.$valid">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <button class="btn btn-default" data-toggle="modal" data-target="#myModal">Utilization & Bill Rates</button>
+            <input ng-click="backToDashboard()" class="btn btn-primary" type="button" id="back-btn"
+                   value="Back to Dashboard">
+        </div>
+    </div>
+    <div ng-show="chartVisible">
+        <div class="panel panel-primary" >
+            <div class="panel-heading">{{financials.region}} {{financials.type}}</div>
+            <div class="panel-body">
+                <chart id="chart" title="chartIndicator" chart-type="chartType" xData="chartXData"
+                       yData="chartYData" xName="Month" yName="Value" subtitle="Plan and Actual vs Month">
+                </chart>
+            </div>
+        </div>
+        <div class="nav-buttons">
+            <input ng-click="hideChart()" class="btn btn-primary" type="button" id="back" value="Back">
         </div>
     </div>
 
-    <chart id="chart" ng-show="chartVisible" title="chartIndicator" chart-type="chartType" xData="chartXData"
-           yData="chartYData" xName="Month" yName="Value" subtitle="Plan and Actual vs Month"></chart>
-    <div ng-show="chartVisible" class="nav-buttons">
-        <input ng-click="hideChart()" class="btn btn-default" type="button" id="back" value="Back">
-    </div>
 </div>

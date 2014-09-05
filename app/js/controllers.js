@@ -106,19 +106,16 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
             $scope.chartVisible = false;
         };
 
-//        $scope.months = function () {
-//            var result = [];
-//            var endDate = moment();
-//            var startDate = moment().startOf('year');
-//
-//            while(startDate.month() <= endDate.month()) {
-//                result.push(startDate.format('MMMM'));
-//                startDate.add( 1, 'months');
-//            }
-//            return result;
-//        }
+        var initialiseBillRatesAndUtilisation = function() {
+            $scope.averageBillRate = {};
+            $scope.averageUtilisation = {};
+        };
 
+        initialiseBillRatesAndUtilisation();
 
+        $scope.cancel = function () {
+            initialiseBillRatesAndUtilisation();
+        }
 
     }])
     .controller('DashboardController', ['$scope', 'FinanceModel', '$location', function ($scope, FinanceModel, $location) {
