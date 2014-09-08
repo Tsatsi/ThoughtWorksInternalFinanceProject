@@ -4,10 +4,10 @@
     </div>
     <div class="input-group financial-inputs">
         <div class="input-group-addon">Planned</div>
-        <input class="form-control" type="number" ng-maxlength="2" min="1" max="99" placeholder="" size="2" ng-model="ngModel.plan">
+        <input class="form-control" type="number" ng-maxlength="{{maxLength}}" min="1" placeholder="" ng-model="ngModel.plan">
     </div>
     <div class="input-group financial-inputs">
         <div class="input-group-addon">Actuals</div>
-        <input class="form-control" type="number" ng-maxlength="2" min="1" max="99" placeholder="" size="2" ng-model="ngModel.actual">
+        <input class="form-control" type="number" ng-maxlength="{{maxLength}}" min="1" placeholder="" ng-model="ngModel.actual">
     </div>
 </div>

@@ -147,6 +147,10 @@ angular.module('financeApplication.services', [])
 
         };
 
+        service.clearIndicators = function () {
+          indicatorList = [];
+        };
+
         service.addIndicator = function (indicator) {
             indicatorList =_.remove(indicatorList, function(element) {
                 return !(element.region === indicator.region && element.type === indicator.type);

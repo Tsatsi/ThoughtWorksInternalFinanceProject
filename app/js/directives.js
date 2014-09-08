@@ -17,7 +17,8 @@ app.directive('financialInput', function () {
         restrict: 'E',
         scope: {
             header: '@',
-            ngModel: '='
+            ngModel: '=',
+            maxLength: '@'
         },
         templateUrl: 'partials/financialsInput.html'
     };

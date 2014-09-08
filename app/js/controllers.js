@@ -107,8 +107,13 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
         };
 
         var initialiseBillRatesAndUtilisation = function() {
-            $scope.averageBillRate = undefined;
-            $scope.averageUtilisation = undefined;
+            $scope.billRate = FinanceModel.indicator($scope.financials.region, 'Average Bill Rate');
+            $scope.utilization = FinanceModel.indicator($scope.financials.region, 'Utilization');
+            if ($scope.billRate && $scope.utilization) {
+
+                $scope.averageUtilisation = {plan: $scope.utilization.values.plan, actual: $scope.utilization.values.actual};
+                $scope.averageBillRate = {plan: $scope.billRate.values.plan, actual: $scope.billRate.values.actual};
+            }
         };
 
         initialiseBillRatesAndUtilisation();
@@ -123,7 +128,9 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
         };
 
         $scope.cancel = function () {
-            initialiseBillRatesAndUtilisation();
+            FinanceModel.clearIndicators();
+            $scope.averageUtilisation = undefined;
+            $scope.averageBillRate = undefined;
         };
 
         $scope.showUtilizationAndBillRate = function () {
