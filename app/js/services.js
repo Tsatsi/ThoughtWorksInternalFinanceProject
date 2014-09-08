@@ -2,21 +2,21 @@
 
 /* Services */
 angular.module('financeApplication.services', [])
-
     .factory('FinanceModel', ['XLSXReaderService', function (XLSXReaderService) {
         var financials;
         var sheets = XLSXReaderService.sheets();
         var regions = {JHB: 'Johannesburg', KPL: 'Kampala', PAN: 'Pan Africa'};
         var knownSheets = {plan: {JHB: 'Q2-ZA Plan', KPL: 'Q2-UG Plan'}, actual: {JHB: 'IS-ZA-Actuals', KPL: 'IS-UG-Actuals'}};
+        var indicatorList = [];
 
         var indicators = {FINANCIALS: [
-                {name: 'Net Revenue', plan: 'Net Revenue', actual: 'Net Revenue'},
-                {name: 'Total Cost of Services', plan: 'Cost of Services', actual: 'Total Cost of Services'},
-                {name: 'Gross Profit %', plan: 'Gross Margin %', actual: 'Gross Profit %'},
-                {name: 'Total Operating Expenses', plan: 'OPEX', actual: 'Total Operating Expenses'},
-                {name: 'Operating Contribution', plan: 'OC', actual: 'Operating Contribution'},
-                {name: 'Client Gross Margin %', plan: 'CGM %', actual: 'Client Gross Margin %'}
-            ],  OPEX:[
+            {name: 'Net Revenue', plan: 'Net Revenue', actual: 'Net Revenue'},
+            {name: 'Total Cost of Services', plan: 'Cost of Services', actual: 'Total Cost of Services'},
+            {name: 'Gross Profit %', plan: 'Gross Margin %', actual: 'Gross Profit %'},
+            {name: 'Total Operating Expenses', plan: 'OPEX', actual: 'Total Operating Expenses'},
+            {name: 'Operating Contribution', plan: 'OC', actual: 'Operating Contribution'},
+            {name: 'Client Gross Margin %', plan: 'CGM %', actual: 'Client Gross Margin %'}
+        ],  OPEX:[
             {name: 'Business Development', plan: 'Business Development', actual: 'Business Development'},
             {name:  'Engagement & Account Management', plan: 'E&AM', actual: 'Engagement & Account Management'},
             {name:  'Marketing', plan: 'Marketing', actual: 'Marketing'},
@@ -25,7 +25,6 @@ angular.module('financeApplication.services', [])
             {name:  'People Development', plan: 'People Development', actual: 'People Development'},
             {name:  'General & Administrative', plan: 'General & Administrative', actual: 'General & Administrative'}
         ]};
-
 
         var amount = function (region, indicator, period, sheets) {
             var amount;
@@ -107,12 +106,12 @@ angular.module('financeApplication.services', [])
                         "type": "Currency",
                         "values": allValues,
                         "ytd": {
-                                  period: formatActual(moment()),
-                                  amounts:{
-                                            plan: totalAmount('Plan'),
-                                            actual: totalAmount('Actual')
-                                          }
-                                }
+                            period: formatActual(moment()),
+                            amounts:{
+                                plan: totalAmount('Plan'),
+                                actual: totalAmount('Actual')
+                            }
+                        }
                     }
                 );
             })
@@ -131,6 +130,32 @@ angular.module('financeApplication.services', [])
 
         };
 
+        service.indicator = function(region, indicatorType){
+            var serialNumbers = {'Utilization': 7, 'Average Bill Rate': 8};
+            var indicator = _.transform(indicatorList, function(result, indicator) {
+                if (indicator.region === region && indicator.type === indicatorType){
+                    var indicatorForRegion = {
+                        "indicator": indicator.type,
+                        "serialNumber": serialNumbers[indicator.type],
+                        "values": { plan: indicator.plan, actual: indicator.actual}
+                    };
+                    result.push(indicatorForRegion);
+                }
+            });
+
+            return indicator[0];
+
+        };
+
+        service.addIndicator = function (indicator) {
+            indicatorList =_.remove(indicatorList, function(element) {
+                return !(element.region === indicator.region && element.type === indicator.type);
+            });
+            if (indicator.plan && indicator.actual) {
+                indicatorList.push(indicator);
+            }
+        };
+
         service.opex = function(region){
             if (region) {
                 financials = {
@@ -145,6 +170,7 @@ angular.module('financeApplication.services', [])
         return service;
 
     }])
+
     .factory("XLSXReaderService", ['$q', function ($q) {
         var sheets;
         var service = function (data) {

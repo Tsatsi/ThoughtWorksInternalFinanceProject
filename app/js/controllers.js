@@ -107,15 +107,28 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
         };
 
         var initialiseBillRatesAndUtilisation = function() {
-            $scope.averageBillRate = {};
-            $scope.averageUtilisation = {};
+            $scope.averageBillRate = undefined;
+            $scope.averageUtilisation = undefined;
         };
 
         initialiseBillRatesAndUtilisation();
 
+        $scope.saveChanges = function () {
+            var utilization = {region: $scope.financials.region, plan: $scope.averageUtilisation.plan, actual: $scope.averageUtilisation.actual, type: 'Utilization'};
+            var billRate = {region: $scope.financials.region, plan: $scope.averageBillRate.plan, actual: $scope.averageBillRate.actual, type: 'Average Bill Rate'};
+            FinanceModel.addIndicator(utilization);
+            FinanceModel.addIndicator(billRate);
+            $scope.utilization = FinanceModel.indicator($scope.financials.region, 'Utilization');
+            $scope.billRate = FinanceModel.indicator($scope.financials.region, 'Average Bill Rate');
+        };
+
         $scope.cancel = function () {
             initialiseBillRatesAndUtilisation();
-        }
+        };
+
+        $scope.showUtilizationAndBillRate = function () {
+            return $scope.averageBillRate !== undefined && $scope.averageUtilisation !== undefined;
+        };
 
     }])
     .controller('DashboardController', ['$scope', 'FinanceModel', '$location', function ($scope, FinanceModel, $location) {

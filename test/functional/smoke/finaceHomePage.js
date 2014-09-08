@@ -26,11 +26,6 @@ ddescribe('P1 Dashboard', function () {
         expect(financeHomePagePage.uploadButtonValue()).toBe('Upload Excel File');
     });
 
-//    it('should upload a file and display success message when the file is valid', function () {
-//        financeHomePagePage.uploadFile('../../../app/assets/input-valid.xlsx');
-//        expect(financeHomePagePage.successNotification()).toContain('Successfully uploaded file');
-//    });
-
     it('should upload a file and display an error message when the file is invalid', function () {
         financeHomePagePage.uploadFile('../../../app/assets/input-invalid.xlsx');
         expect(financeHomePagePage.errorNotification()).toContain('The excel file uploaded does not contain Q2-ZA Plan');
