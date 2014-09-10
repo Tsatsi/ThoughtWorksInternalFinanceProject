@@ -1,6 +1,9 @@
 <div class="financials">
     <div ng-show="!chartVisible">
-
+        <div ng-hide="allIndicatorsAreSet()" class="alert alert-danger alert-error">
+            <a class="close" data-dismiss="alert">×</a>
+            Average Utilization and Bill Rates have not been set for all regions
+        </div>
         <div class="panel panel-primary">
             <!-- Default panel contents -->
             <div class="panel-heading">{{financials.region}} {{financials.type}}</div>
@@ -62,7 +65,7 @@
             </div>
         </div>
         <div class="nav-buttons">
-            <button class="btn btn-default" data-toggle="modal" data-target="#myModal">Utilization & Bill Rates</button>
+            <button ng-show="allowBillRatesAndUtilizationEdits()" class="btn btn-default" data-toggle="modal" data-target="#myModal">Utilization & Bill Rates</button>
             <input ng-click="backToDashboard()" class="btn btn-primary" type="button" id="back-btn"
                    value="Back to Dashboard">
         </div>

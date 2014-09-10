@@ -132,23 +132,63 @@ angular.module('financeApplication.services', [])
 
         service.indicator = function(region, indicatorType){
             var serialNumbers = {'Utilization': 7, 'Average Bill Rate': 8};
-            var indicator = _.transform(indicatorList, function(result, indicator) {
-                if (indicator.region === region && indicator.type === indicatorType){
-                    var indicatorForRegion = {
-                        "indicator": indicator.type,
-                        "serialNumber": serialNumbers[indicator.type],
-                        "values": { plan: indicator.plan, actual: indicator.actual}
-                    };
-                    result.push(indicatorForRegion);
-                }
-            });
+            var indicator = {};
 
-            return indicator[0];
+
+            var indicatorForRegion = function() {
+                return _.transform(indicatorList, function (result, indicator) {
+                    if (indicator.region === region && indicator.type === indicatorType) {
+                        var indicatorForRegion = {
+                            "indicator": indicator.type,
+                            "serialNumber": serialNumbers[indicator.type],
+                            "values": { plan: indicator.plan, actual: indicator.actual}
+                        };
+                        result.push(indicatorForRegion);
+                    }
+                })[0];
+            };
+
+            var totalAmounts = function (indicator){
+
+                var z = _.filter(indicatorList, function(_indicator){
+                    return indicator === _indicator.type;
+                });
+
+                var totalPlan = 0;
+                var totalActual = 0;
+                _.forEach(z, function (element) {
+                    totalPlan += element.plan;
+                    totalActual += element.actual;
+                });
+                var numberOfRegions = z.length;
+                return { "plan": totalPlan/numberOfRegions, "actual": totalActual/numberOfRegions};
+
+            };
+
+            var indicatorForAllRegions = function () {
+
+                        var indicatorForRegion = {
+                            "indicator": indicatorType,
+                            "serialNumber": serialNumbers[indicatorType],
+                            "values": totalAmounts(indicatorType)
+                    };
+                    return indicatorForRegion;
+            };
+
+            if (region == 'Pan Africa') {
+                indicator = indicatorForAllRegions();
+            }
+            else {
+                indicator = indicatorForRegion() || {"values": {}};
+            }
+            return indicator;
 
         };
 
         service.clearIndicators = function () {
-          indicatorList = [];
+            indicatorList =_.remove(indicatorList, function(element) {
+                return !(element.region === financials.region);
+            });
         };
 
         service.addIndicator = function (indicator) {
@@ -169,6 +209,10 @@ angular.module('financeApplication.services', [])
                 };
             }
             return financials;
+        };
+
+        service.indicatorsCaptured = function () {
+            return indicatorList.length === 4;
         };
 
         return service;

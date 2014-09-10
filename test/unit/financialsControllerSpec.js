@@ -37,6 +37,7 @@ describe('FinancialsController', function () {
     describe('navigation', function () {
         it('should be able to navigate back to the dashboard', function () {
             spyOn(location, 'path');
+            spyOn(financeModel, 'financials').andReturn({});
             controller = controller('FinancialsController', {$scope: scope});
             scope.backToDashboard();
             expect(location.path).toHaveBeenCalledWith('/dashboard');
@@ -125,6 +126,87 @@ describe('FinancialsController', function () {
             expect(scope.chartYData).toEqual(expectedChartData.yData);
         });
     });
+
+    describe('bill rates and utilization', function () {
+        beforeEach(function () {
+            spyOn(financeModel, 'financials').andReturn({xxx:1});
+            controller = controller('FinancialsController', {$scope: scope});
+        });
+
+        it('should know when bill rate and utilization values are not set for the individual regions when selecting Pan Africa', function () {
+            expect(scope.allIndicatorsAreSet()).toBeFalsy();
+        });
+
+
+        it('should know when bill rate and utilization values are set for the individual regions when selecting Pan Africa', function() {
+            spyOn(financeModel, 'indicatorsCaptured').andReturn(true);
+            scope.financials.region = 'Pan Africa';
+            expect(scope.allIndicatorsAreSet()).toBeTruthy();
+        });
+
+        it('should know how to clear values', function () {
+            spyOn(financeModel, 'clearIndicators');
+            scope.averageUtilisation = {something:1};
+            scope.averageBillRate = {something:1};
+            scope.billRate = {values: {something:1}};
+            scope.utilization = {values: {something:1}};
+
+            scope.cancel();
+            expect(financeModel.clearIndicators).toHaveBeenCalled();
+            expect(scope.averageUtilisation).toEqual({});
+            expect(scope.averageBillRate).toEqual({});
+            expect(scope.billRate).toEqual({values: {}});
+            expect(scope.utilization).toEqual({values: {}});
+        });
+
+        it('should know how to save values', function () {
+            spyOn(financeModel, 'addIndicator');
+            spyOn(financeModel, 'indicator').andReturn({});
+            scope.saveChanges();
+            expect(financeModel.addIndicator).toHaveBeenCalled();
+            expect(financeModel.indicator).toHaveBeenCalled();
+            expect(scope.utilization).toBeDefined();
+            expect(scope.billRate).toBeDefined();
+        });
+
+        describe("allowing manual addition of bill rates and utilization", function () {
+
+            it("should not allow manual addition of bill rates and utilization when Pan Africa is selected", function () {
+                scope.financials.region = "Pan Africa";
+                expect(scope.allowBillRatesAndUtilizationEdits()).toBeFalsy();
+            });
+
+            it("should allow manual addition of bill rates and utilization when Pan Africa is not selected region", function () {
+                scope.financials = {region: "Johannesburg", type: "Financials"};
+                expect(scope.allowBillRatesAndUtilizationEdits()).toBeTruthy();
+            });
+
+            it("should only allow manual addition of bill rates and utilization when viewing financials", function () {
+                scope.financials = {region: "Johannesburg", type: "Financials"};
+                expect(scope.showUtilizationAndBillRate()).toBeFalsy();
+            });
+
+        });
+
+        describe('displaying utilization and bill rates in financials table', function () {
+            it('should not show when all values have not been captured', function () {
+                scope.financials = {region: "Johannesburg", type: "Financials"};
+                expect(scope.showUtilizationAndBillRate()).toBeFalsy();
+            });
+
+            it('should show when all values have been captured', function () {
+                scope.financials = {region: "Johannesburg", type: "Financials"};
+                scope.utilization = {values:{plan: 1, actual: 2}};
+                scope.billRate = {values:{plan: 1, actual: 2}};
+                expect(scope.showUtilizationAndBillRate()).toBeTruthy();
+            });
+        });
+
+    });
+
+;
+
+
 
 
 });

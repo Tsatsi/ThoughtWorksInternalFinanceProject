@@ -129,6 +129,19 @@ describe('service', function () {
 
         });
 
+        it('should be able to calculate the total average bill rate for all regions', function () {
+            var expectedPanAfricaBillRate = {
+                "indicator": 'Average Bill Rate',
+                "serialNumber": 8,
+                "values": { plan: 3, actual: 3}
+            };
+
+            financeModel.addIndicator({region: 'JHB', 'plan': 3, 'actual':4, type:'Average Bill Rate'});
+            financeModel.addIndicator({region: 'KPL', 'plan': 3, 'actual':2, type:'Average Bill Rate'});
+            expect(financeModel.indicator('Pan Africa', 'Average Bill Rate')).toEqual(expectedPanAfricaBillRate);
+
+        });
+
         it('', function () {
             var expectedJhbBillRate = {
                 "indicator": 'Average Bill Rate',

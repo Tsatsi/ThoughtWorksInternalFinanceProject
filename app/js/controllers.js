@@ -106,36 +106,50 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
             $scope.chartVisible = false;
         };
 
-        var initialiseBillRatesAndUtilisation = function() {
+        var initialiseBillRatesAndUtilisation = function () {
+
             $scope.billRate = FinanceModel.indicator($scope.financials.region, 'Average Bill Rate');
             $scope.utilization = FinanceModel.indicator($scope.financials.region, 'Utilization');
-            if ($scope.billRate && $scope.utilization) {
 
-                $scope.averageUtilisation = {plan: $scope.utilization.values.plan, actual: $scope.utilization.values.actual};
-                $scope.averageBillRate = {plan: $scope.billRate.values.plan, actual: $scope.billRate.values.actual};
-            }
+            $scope.averageUtilisation = {plan: $scope.utilization.values.plan, actual: $scope.utilization.values.actual};
+            $scope.averageBillRate = {plan: $scope.billRate.values.plan, actual: $scope.billRate.values.actual};
         };
 
         initialiseBillRatesAndUtilisation();
 
         $scope.saveChanges = function () {
-            var utilization = {region: $scope.financials.region, plan: $scope.averageUtilisation.plan, actual: $scope.averageUtilisation.actual, type: 'Utilization'};
-            var billRate = {region: $scope.financials.region, plan: $scope.averageBillRate.plan, actual: $scope.averageBillRate.actual, type: 'Average Bill Rate'};
-            FinanceModel.addIndicator(utilization);
-            FinanceModel.addIndicator(billRate);
+            FinanceModel.addIndicator({region: $scope.financials.region, plan: $scope.averageUtilisation.plan, actual: $scope.averageUtilisation.actual, type: 'Utilization'});
+            FinanceModel.addIndicator({region: $scope.financials.region, plan: $scope.averageBillRate.plan, actual: $scope.averageBillRate.actual, type: 'Average Bill Rate'});
             $scope.utilization = FinanceModel.indicator($scope.financials.region, 'Utilization');
             $scope.billRate = FinanceModel.indicator($scope.financials.region, 'Average Bill Rate');
         };
 
         $scope.cancel = function () {
             FinanceModel.clearIndicators();
-            $scope.averageUtilisation = undefined;
-            $scope.averageBillRate = undefined;
+            $scope.averageUtilisation = {};
+            $scope.averageBillRate = {};
+            $scope.billRate = {values: {}};
+            $scope.utilization = {values: {}};
         };
 
         $scope.showUtilizationAndBillRate = function () {
-            return $scope.averageBillRate !== undefined && $scope.averageUtilisation !== undefined;
+            return $scope.utilization.values.plan && $scope.billRate.values.plan
+                && $scope.utilization.values.actual && $scope.billRate.values.actual
+                && isFinancials();
         };
+
+        $scope.allIndicatorsAreSet = function () {
+            return _.contains(["Johannesburg", "Kampala"], $scope.financials.region) || FinanceModel.indicatorsCaptured();
+        };
+
+        function isFinancials() {
+            return $scope.financials.type.indexOf('Financials') > -1;
+        }
+
+        $scope.allowBillRatesAndUtilizationEdits = function () {
+            return $scope.financials.region !== "Pan Africa" && isFinancials();
+        }
+
 
     }])
     .controller('DashboardController', ['$scope', 'FinanceModel', '$location', function ($scope, FinanceModel, $location) {
