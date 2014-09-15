@@ -119,7 +119,7 @@ angular.module('financeApplication.services', [])
                         "type": indicator.name.indexOf('%') > -1 ? 'Percentage':'Currency',
                         "values": allValues,
                         "ytd": {
-                            period: formatActual(moment()),
+                            period: formatActual(endDate()),
                             amounts:{
                                 plan: totalAmount('Plan'),
                                 actual: totalAmount('Actual')

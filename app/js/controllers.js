@@ -99,7 +99,7 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
         };
 
         $scope.$watch('financials', function () {
-            $scope.chartType = $scope.financials.type === 'Accumulative Financials' ? 'line' : 'column';
+            $scope.chartType = $scope.financials.type === 'YTD Financials' ? 'line' : 'column';
         });
 
         $scope.hideChart = function () {
