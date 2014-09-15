@@ -52,21 +52,33 @@ angular.module('financeApplication.services', [])
             return sheets[sheet][columnKey + rowKey]['v'];
         };
 
+        var endDate = function () {
+
+            var sheet = sheets[knownSheets['actual']['JHB']];
+            var sheetHeader = _.find(sheet, function (b){return b['h'] && b['h'].indexOf('Period Ended') > -1})['h'];
+            var months = moment.months();
+            var reportingMonth = _.find(months, function (month) {
+                return sheetHeader.indexOf(month) > -1;
+            });
+            return moment(reportingMonth, 'MMM');
+
+        };
+
+
         var formatPlan = function (date) {
             return date.format('MMM').toUpperCase();
         };
 
         var formatActual = function (date) {
-            return date.format('MMMM');
+            return endDate().format('MMMM');
         };
 
         var values = function (cumulative, region, indicator) {
             var result = [];
 
-            var startDate = cumulative ? moment().startOf('year') : moment();
-            var endDate = moment();
+            var startDate = cumulative ? moment().startOf('year') : endDate();
 
-            while (startDate.month() <= endDate.month()) {
+            while (startDate.month() <= endDate().month()) {
                 var amountActual = amount(region, indicator.actual, formatActual(startDate), knownSheets['actual']);
                 var amountPlan = amount(region, indicator.plan, formatPlan(startDate), knownSheets['plan']);
 
@@ -119,7 +131,7 @@ angular.module('financeApplication.services', [])
         };
 
         service.financials = function (region, cumulative) {
-            var type = cumulative ? 'Accumulative Financials' : 'Financials';
+            var type = cumulative ? 'YTD Financials' : 'Financials';
             if (region) {
                 financials = {
                     region: regions[region],
