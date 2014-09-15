@@ -3,8 +3,13 @@
 /* Filters */
 
 angular.module('financeApplication.filters', []).
-  filter('interpolate', ['version', function(version) {
-    return function(text) {
-      return String(text).replace(/\%VERSION\%/mg, version);
+  filter('typeFilter', function() {
+    return function(amount, type) {
+        if(type==='Percentage'){
+            return amount + '%';
+        }else {
+            return '$' + amount;
+        }
+
     };
-  }]);
+  });

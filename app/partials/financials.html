@@ -22,8 +22,8 @@
                     <tr ng-repeat="row in financials.data" ng-click="showChart(row.indicator)" class="financial-row">
                         <td>{{row.serialNumber}}</td>
                         <td>{{row.indicator}}</td>
-                        <td>{{row.ytd.amounts.plan | currency:''}}</td>
-                        <td>{{row.ytd.amounts.actual | currency:''}}</td>
+                        <td>{{row.ytd.amounts.plan | currency:'' | typeFilter:row.type}}</td>
+                        <td>{{row.ytd.amounts.actual | currency:'' | typeFilter:row.type}}</td>
                     </tr>
                     <tr ng-show="showUtilizationAndBillRate()">
                         <td>{{utilization.serialNumber}}</td>

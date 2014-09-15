@@ -82,6 +82,7 @@ angular.module('financeApplication.services', [])
         };
 
         var data = function (region, cumulative, indicatorType){
+
             var serialNumber = 1;
 
             return _.transform(indicators[indicatorType], function (results, indicator) {
@@ -103,7 +104,7 @@ angular.module('financeApplication.services', [])
                     {
                         "indicator": indicator.name,
                         "serialNumber": serialNumber++,
-                        "type": "Currency",
+                        "type": indicator.name.indexOf('%') > -1 ? 'Percentage':'Currency',
                         "values": allValues,
                         "ytd": {
                             period: formatActual(moment()),
