@@ -70,7 +70,7 @@ angular.module('financeApplication.services', [])
         };
 
         var formatActual = function (date) {
-            return endDate().format('MMMM');
+            return date.format('MMMM');
         };
 
         var values = function (cumulative, region, indicator) {
