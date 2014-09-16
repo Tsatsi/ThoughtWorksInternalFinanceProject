@@ -42,7 +42,9 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
     .controller('FinancialsController', ['$scope', '$location', 'FinanceModel', function ($scope, $location, FinanceModel) {
 
         var data = function () {
-            var data = _.find($scope.financials.data, $scope.indicator);
+            var data = _.find($scope.financials.data, function (data) {
+                return data.indicator === $scope.chartIndicator;
+            });
 
             var plannedValues = _.filter(data.values, function (value) {
                 return value.type === 'Plan';
