@@ -85,7 +85,7 @@ describe('FinancialsController', function () {
         });
 
         it('should know how to show the chart', function () {
-            scope.showChart('');
+            scope.showChart('Net Revenue');
             expect(scope.chartVisible).toBeTruthy();
         });
 
@@ -105,7 +105,7 @@ describe('FinancialsController', function () {
         });
 
         it('should show line charts for accumulative financials', function () {
-            scope.financials.type = 'Accumulative Financials';
+            scope.financials.type = 'YTD Financials';
             scope.$digest();
             expect(scope.chartType).toBe('line');
         });
