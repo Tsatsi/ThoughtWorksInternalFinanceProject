@@ -19,7 +19,7 @@ var app = module.exports = express();
  */
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8000);
 app.set('views', __dirname + '/views');
 app.engine('html', engines.mustache);
 app.set('view engine', 'html');
@@ -27,6 +27,8 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(methodOverride());
 app.use(express.static(path.join(__dirname, '/')));
+
+
 var env = process.env.NODE_ENV || 'development';
 
 // JSON API
