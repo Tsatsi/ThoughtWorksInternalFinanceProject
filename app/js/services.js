@@ -26,30 +26,30 @@ angular.module('financeApplication.services', [])
             {name:  'General & Administrative', plan: 'General & Administrative', actual: 'General & Administrative'}
         ]};
 
-        var amount = function (region, indicator, period, sheets) {
+        var amount = function (region, indicator, period, sheets, columnKey) {
             var amount;
             var isPercentageValue = indicator.indexOf('%') > -1;
 
             if (region === 'PAN') {
-                var jhbAmount = findValue(sheets['JHB'], indicator, period);
-                var kplAmount = findValue(sheets['KPL'], indicator, period);
+                var jhbAmount = findValue(sheets['JHB'], indicator, period, columnKey);
+                var kplAmount = findValue(sheets['KPL'], indicator, period, columnKey);
 
                 var total = (jhbAmount + kplAmount) / 2 * 100;
 
                 amount = isPercentageValue ? isNaN(total) ? 0 : total : jhbAmount + kplAmount || 0;
             }
             else {
-                var value = findValue(sheets[region], indicator, period);
+                var value = findValue(sheets[region], indicator, period, columnKey);
                 amount = isPercentageValue ? isNaN(value) ? 0 : value * 100 : value;
             }
             return amount;
 
         };
 
-        var findValue = function (sheet, row, column) {
+        var findValue = function (sheet, row, column, columnKey) {
             var rowKey = _.findKey(sheets[ sheet], {'h': row}).replace(/[A-Z]/g, '');
-            var columnKey = _.findKey(sheets[sheet], {'h': column}).replace(/[0-9]/g, '');
-            return sheets[sheet][columnKey + rowKey]['v'];
+            var colKey = columnKey(sheet, column).replace(/[0-9]/g, '');
+            return sheets[sheet][colKey + rowKey]['v'];
         };
 
         var endDate = function () {
@@ -79,8 +79,8 @@ angular.module('financeApplication.services', [])
             var startDate = cumulative ? moment().startOf('year') : endDate();
 
             while (startDate.month() <= endDate().month()) {
-                var amountActual = amount(region, indicator.actual, formatActual(startDate), knownSheets['actual']);
-                var amountPlan = amount(region, indicator.plan, formatPlan(startDate), knownSheets['plan']);
+                var amountActual = amount(region, indicator.actual, formatActual(startDate), knownSheets['actual'], columnKeyActual);
+                var amountPlan = amount(region, indicator.plan, formatPlan(startDate), knownSheets['plan'], columnKeyPlan);
 
                 result.push({"period": formatActual(startDate), "amount": amountPlan, "type": "Plan"});
                 result.push({"period": formatActual(startDate), "amount": amountActual, "type": "Actual"});
@@ -91,6 +91,29 @@ angular.module('financeApplication.services', [])
 
         var service = function() {
 
+        };
+
+        var columnKeyActual = function (sheet, column) {
+            return _.findKey(sheets[sheet], {'h': column});
+        };
+
+        var columnKeyPlan = function (sheet, column) {
+            var keys = [];
+            _.forEach(sheets[sheet], function (val, key) {
+                if (val.v == column) {
+                    keys.push(key)
+                }
+            });
+
+            var modifiedKeys = _.map(keys, function (num) {
+                return num.replace(/[0-9]/g, '') + (parseInt(num.replace(/[A-Z]/g, '')) - 1)
+            });
+
+            return _.find(modifiedKeys, function (key) {
+                if (moment().format('YYYY') == sheets[sheet][key].v) {
+                    return key;
+                }
+            })
         };
 
         var data = function (region, cumulative, indicatorType){
@@ -163,29 +186,27 @@ angular.module('financeApplication.services', [])
 
             var totalAmounts = function (indicator){
 
-                var z = _.filter(indicatorList, function(_indicator){
+                var validIndicators = _.filter(indicatorList, function(_indicator){
                     return indicator === _indicator.type;
                 });
 
                 var totalPlan = 0;
                 var totalActual = 0;
-                _.forEach(z, function (element) {
+                _.forEach(validIndicators, function (element) {
                     totalPlan += element.plan;
                     totalActual += element.actual;
                 });
-                var numberOfRegions = z.length;
+                var numberOfRegions = validIndicators.length;
                 return { "plan": totalPlan/numberOfRegions, "actual": totalActual/numberOfRegions};
 
             };
 
             var indicatorForAllRegions = function () {
-
-                        var indicatorForRegion = {
+                return {
                             "indicator": indicatorType,
                             "serialNumber": serialNumbers[indicatorType],
                             "values": totalAmounts(indicatorType)
                     };
-                    return indicatorForRegion;
             };
 
             if (region == 'Pan Africa') {
