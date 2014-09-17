@@ -10,10 +10,10 @@ angular.module('financeApplication', [
   'financeApplication.controllers'
 ]).
 config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/upload', {templateUrl: 'partials/upload.html', controller: 'UploadController'});
-  $routeProvider.when('/preview', {templateUrl: 'partials/preview.html', controller: 'UploadController'});
-  $routeProvider.when('/financials', {templateUrl: 'partials/financials.html', controller: 'FinancialsController'});
-  $routeProvider.when('/dashboard', {templateUrl: 'partials/dashboard.html', controller: 'DashboardController'});
+  $routeProvider.when('/upload', {templateUrl: 'views/partials/upload.html', controller: 'UploadController'});
+  $routeProvider.when('/preview', {templateUrl: 'views/partials/preview.html', controller: 'UploadController'});
+  $routeProvider.when('/financials', {templateUrl: 'views/partials/financials.html', controller: 'FinancialsController'});
+  $routeProvider.when('/dashboard', {templateUrl: 'views/partials/dashboard.html', controller: 'DashboardController'});
   $routeProvider.otherwise({redirectTo: '/upload'});
 
 }]);

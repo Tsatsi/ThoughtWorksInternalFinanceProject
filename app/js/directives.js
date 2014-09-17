@@ -20,7 +20,7 @@ app.directive('financialInput', function () {
             ngModel: '=',
             maxLength: '@'
         },
-        templateUrl: 'partials/financialsInput.html'
+        templateUrl: 'views/partials/financialsInput.html'
     };
 });
 
