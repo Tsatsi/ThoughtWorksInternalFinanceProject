@@ -1,19 +1,29 @@
 'use strict';
 
 var mongoose = require('mongoose');
+
+var ytdSchema = new mongoose.Schema({
+    period: String, amounts: {plan: Number, actual: Number}
+});
+
+var valuesSchema = new mongoose.Schema({
+        period: String, amount: Number, type: String
+});
+
+
+var financialsDataSchema = new mongoose.Schema({
+    indicator: String, serialNumber: Number, type: String, values: [valuesSchema]
+    , ytd: {period: String, amounts: {plan: Number, actual: Number}}
+});
+
+
 var financialsSchema = new mongoose.Schema({
-        region: String,
-        type: String,
-        effectiveMonth: String,
-        uploadDate: {type: Date, default: Date.now},
-        data: [
-            { indicator: String, serialNumber: Number, type: String, values: [
-                {period: String, amount: Number, type: String}
-            ], ytd: [
-                {period: String, amounts: {plan: Number, actual: Number}}
-            ] }
-        ]
-    });
+    region: String,
+    type: String,
+    effectiveMonth: String,
+    uploadDate: {type: Date, default: Date.now},
+    data: [financialsDataSchema]
+});
 
 var Financial = mongoose.model('Financial', financialsSchema);
 
@@ -41,6 +51,7 @@ function create(row, callback) {
         callback(error, result);
     });
 }
+
 exports.readFinancials = function (req, res) {
     getFinancials(function (error, result) {
         if (error) {
@@ -51,7 +62,7 @@ exports.readFinancials = function (req, res) {
         }
     });
 
-}
+};
 
 function getFinancials(callback) {
     Financial.find({}, function (error, result) {

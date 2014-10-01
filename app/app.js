@@ -36,7 +36,7 @@ var env = process.env.NODE_ENV || 'development';
 app.get('/api/name', api.name);
 app.post('/api/financials', financials.create);
 app.get('/api/financials', financials.readFinancials);
-;
+
 /**
  * Start Server
  */
