@@ -12,7 +12,6 @@ module.exports = function (config) {
             'app/js/**/*.js',
             'test/unit/**/*.js',
             'app/assets/*.json'
-
         ],
 
         ngJson2JsPreprocessor: {

@@ -8,6 +8,7 @@ describe('Home page', function () {
 
     beforeEach(function () {
         browser.get('index.html');
+
     });
 
     it('should display homepage Title', function () {
@@ -35,4 +36,5 @@ describe('Home page', function () {
         financeHomePagePage.uploadValidFile();
         expect(browser.getCurrentUrl()).toContain('dashboard');
     });
+
 });

@@ -27,5 +27,6 @@ var dashboardPage = function () {
         helpers.scrollThenClick(element(by.css('#back-btn')));
     };
 };
+
 module.exports = new dashboardPage();
 

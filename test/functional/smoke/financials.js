@@ -19,8 +19,7 @@ describe('financials page', function () {
     it("should redirect back to the dashboard page", function () {
         financialsPage.backToDashboard();
         expect(browser.getCurrentUrl()).toContain('dashboard');
+
     });
-
-
 
 });
