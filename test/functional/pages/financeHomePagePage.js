@@ -2,6 +2,8 @@ var financeHomePagePage = function () {
 
     var helpers = require('./helpers.js');
     var path = require('path');
+    var validFilePath = '../../../app/assets/input-valid.xlsx';
+    var invalidFilePath = '../../../app/assets/input-invalid.xlsx';
 
     this.pageTitle = function () {
         return browser.getTitle();
@@ -27,10 +29,19 @@ var financeHomePagePage = function () {
         return element(by.css('.alert-error')).getText();
     };
 
-    this.uploadFile = function (filePath) {
+    var uploadFile = function (filePath) {
         var absolutePath = path.resolve(__dirname, filePath);
         element(by.css('input[type="file"]')).sendKeys(absolutePath);
-    }
+    };
+
+    this.uploadValidFile = function () {
+        uploadFile(validFilePath);
+    };
+
+    this.uploadInvalidFile = function () {
+        uploadFile(invalidFilePath);
+    };
+
 };
 
 module.exports = new financeHomePagePage();

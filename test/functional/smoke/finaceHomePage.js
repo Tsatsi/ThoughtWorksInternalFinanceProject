@@ -1,7 +1,7 @@
 'use strict';
 
 
-ddescribe('P1 Dashboard', function () {
+describe('Home page', function () {
 
     var financeHomePagePage = require('../pages/financeHomePagePage.js');
 
@@ -27,7 +27,12 @@ ddescribe('P1 Dashboard', function () {
     });
 
     it('should upload a file and display an error message when the file is invalid', function () {
-        financeHomePagePage.uploadFile('../../../app/assets/input-invalid.xlsx');
+        financeHomePagePage.uploadInvalidFile();
         expect(financeHomePagePage.errorNotification()).toContain('The excel file uploaded does not contain Q2-ZA Plan');
+    });
+
+    it('should redirect to the dashboard when an upload is successful', function () {
+        financeHomePagePage.uploadValidFile();
+        expect(browser.getCurrentUrl()).toContain('dashboard');
     });
 });

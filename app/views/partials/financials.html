@@ -4,7 +4,7 @@
             <a class="close" data-dismiss="alert">×</a>
             Average Utilization and Bill Rates have not been set for all regions
         </div>
-        <div class="panel panel-primary">
+        <div class="panel panel-primary" id="financial-data">
             <!-- Default panel contents -->
             <div class="panel-heading">{{financials.region}} {{financials.type}}</div>
             <div class="panel-body">
@@ -71,7 +71,7 @@
         </div>
     </div>
     <div ng-show="chartVisible">
-        <div class="panel panel-primary" >
+        <div class="panel panel-primary" id="financial-chart">
             <div class="panel-heading">{{financials.region}} {{financials.type}}</div>
             <div class="panel-body">
                 <chart id="chart" title="chartIndicator" chart-type="chartType" xData="chartXData"

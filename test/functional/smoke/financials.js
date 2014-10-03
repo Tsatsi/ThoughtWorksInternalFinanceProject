@@ -2,22 +2,25 @@
 
 describe('financials page', function () {
 
+    var financeHomePagePage = require('../pages/financeHomePagePage.js');
     var financialsPage = require('../pages/financialsPage.js');
-    beforeEach(function () {
-        browser.get('#/financials');
-    });
+    var dashboardPage = require('../pages/dashboardPage.js');
 
-    //spike route provider
+    beforeEach(function () {
+        browser.get('index.html');
+        financeHomePagePage.uploadValidFile();
+        dashboardPage.financials('JHB');
+    });
 
     it('should know the region for which financials are being displayed', function () {
         expect(financialsPage.region()).toBe('Johannesburg Financials');
     });
 
-    it("should redirect back to the upload page", function () {
-        expect(financialsPage.backToUploadPage().isDisplayed()).toBeTruthy();
-        financialsPage.backToUploadPage().click();
-        expect(browser.getCurrentUrl()).toContain('/upload');
+    it("should redirect back to the dashboard page", function () {
+        financialsPage.backToDashboard();
+        expect(browser.getCurrentUrl()).toContain('dashboard');
     });
+
 
 
 });

@@ -13,7 +13,7 @@ describe('DashboardController', function () {
 
     it('should know how to go back to the upload page', function () {
         spyOn(location, 'path');
-        scope.backToUploadPage();
+        scope.backToDashboard();
         expect(location.path).toHaveBeenCalledWith('/upload');
     });
 
