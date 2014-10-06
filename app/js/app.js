@@ -14,6 +14,7 @@ config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/preview', {templateUrl: 'views/partials/preview.html', controller: 'UploadController'});
   $routeProvider.when('/financials', {templateUrl: 'views/partials/financials.html', controller: 'FinancialsController'});
   $routeProvider.when('/dashboard', {templateUrl: 'views/partials/dashboard.html', controller: 'DashboardController'});
+  $routeProvider.when('/utilization', {templateUrl: 'views/partials/utilizationAndBillRates.html', controller: 'UtilizationController'});
   $routeProvider.otherwise({redirectTo: '/upload'});
 
 }]);

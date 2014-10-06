@@ -4,8 +4,10 @@ describe('dashboard', function () {
     var financeHomePagePage = require('../pages/financeHomePagePage.js');
     var dashboardPage = require('../pages/dashboardPage.js');
 
-    browser.get('index.html');
-    financeHomePagePage.uploadValidFile();
+    beforeEach(function () {
+        browser.get('index.html');
+        financeHomePagePage.uploadValidFile();
+    });
 
     describe('tiles', function () {
         describe('financials', function () {
@@ -17,10 +19,9 @@ describe('dashboard', function () {
                 expect(dashboardPage.tileButton('FIN', 'JHB').isDisplayed()).toBeTruthy();
             });
 
-            xit('should redirect to financials page when Johannesburg button is clicked', function () {
+            it('should redirect to financials page when Johannesburg button is clicked', function () {
                 dashboardPage.financials('JHB');
                 expect(browser.getCurrentUrl()).toContain('financials');
-                dashboardPage.backToDashboard();
             });
 
         });
@@ -53,11 +54,19 @@ describe('dashboard', function () {
                 expect(dashboardPage.tileButton('UTIL', 'JHB').isDisplayed()).toBeTruthy();
                 expect(dashboardPage.tileButton('UTIL', 'KPL').isDisplayed()).toBeTruthy();
             });
+
+            it('should redirect to utilization page when johannesburg utilization button is clicked', function () {
+                dashboardPage.select('UTIL', 'JHB');
+                expect(browser.getCurrentUrl()).toContain('utilization');
+            });
         });
 
     });
+
     describe('navigation', function () {
         it('should redirect back to the home page when the back to home page button is clicked', function () {
+            browser.get('index.html');
+            financeHomePagePage.uploadValidFile();
             dashboardPage.backToHomePage();
             expect(browser.getCurrentUrl()).toContain('upload');
 

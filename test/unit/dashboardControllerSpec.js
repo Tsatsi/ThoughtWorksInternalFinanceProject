@@ -46,7 +46,13 @@ describe('DashboardController', function () {
             expect(location.path).toHaveBeenCalledWith('/financials');
         });
     });
-
+    describe('utilization and bill rates', function () {
+        it('should know how to redirect to the utilization page', function () {
+            spyOn(location, 'path');
+            scope.utilization();
+            expect(location.path).toHaveBeenCalledWith('/utilization');
+        });
+    });
 
 
 

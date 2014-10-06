@@ -1,19 +1,23 @@
 exports.config = {
-  allScriptsTimeout: 11000,
+    allScriptsTimeout: 11000,
 
-  specs: [
-    'functional/smoke/*.js'
-  ],
+    specs: [
+        'functional/smoke/*.js'
+    ],
+    splitTestsBetweenCapabilities: true,
+    multiCapabilities: [
+        {browserName: 'chrome',
+            count: 1,
+            shardTestFiles: true,
+            maxInstances: 8}
+    ],
 
-  capabilities: {
-    'browserName': 'chrome'
-  },
 
-  baseUrl: 'http://localhost:8000/',
+    baseUrl: 'http://localhost:8000/',
 
-  framework: 'jasmine',
+    framework: 'jasmine',
 
-  jasmineNodeOpts: {
-    defaultTimeoutInterval: 30000
-  }
+    jasmineNodeOpts: {
+        defaultTimeoutInterval: 30000
+    }
 };

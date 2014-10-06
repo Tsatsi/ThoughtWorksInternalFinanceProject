@@ -26,6 +26,10 @@ var dashboardPage = function () {
     this.backToHomePage = function () {
         helpers.scrollThenClick(element(by.css('#back-btn')));
     };
+
+    this.select = function(tile, region){
+        helpers.scrollThenClick(this.tileButton(tile, region));
+    }
 };
 
 module.exports = new dashboardPage();

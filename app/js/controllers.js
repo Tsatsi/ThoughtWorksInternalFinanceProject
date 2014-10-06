@@ -170,5 +170,15 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
             $location.path('/upload');
         };
 
+        $scope.utilization = function () {
+            $location.path('/utilization');
+        }
+
+    }])
+    .controller('UtilizationController',['$scope', '$location', function ($scope, $location) {
+        $scope.header = 'Johannesburg Utilization';
+        $scope.backToDashboard = function(){
+            $location.path('/dashboard');
+        }
     }]);
 
