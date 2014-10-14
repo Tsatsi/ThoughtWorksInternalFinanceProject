@@ -177,8 +177,33 @@ angular.module('financeApplication.controllers', ['financeApplication.services',
     }])
     .controller('UtilizationController',['$scope', '$location', function ($scope, $location) {
         $scope.header = 'Johannesburg Utilization';
+
         $scope.backToDashboard = function(){
             $location.path('/dashboard');
-        }
+        };
+
+        var values = function (values) {
+            var result = [];
+            for (var i = 0; i < 12; i++) {
+
+                var monthValue = _.find(values, function(value) {return value.month == i;});
+
+                if (monthValue) {
+                    result.push(monthValue);
+                }
+                else {
+                    result.push({month: i});
+                }
+            }
+            return result;
+        };
+
+        $scope.plannedUtilization = values([{value: 1, month: 0}, {value: 2, month:1}, { value: 9 , month:9}]);
+
+
+        $scope.actualUtilization = values([{value: 1, month:3}, {value: 2, month:9}]);
+
+        $scope.months = moment.months();
+
     }]);
 

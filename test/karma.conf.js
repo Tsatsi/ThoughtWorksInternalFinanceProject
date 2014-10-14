@@ -9,6 +9,7 @@ module.exports = function (config) {
             'app/bower_components/angular-mocks/angular-mocks.js',
             'app/bower_components/lodash/dist/lodash.min.js',
             'app/bower_components/js-xlsx/xlsx.js',
+//            'app/bower_components/momentjs/moment.js',
             'app/js/**/*.js',
             'test/unit/**/*.js',
             'app/assets/*.json'

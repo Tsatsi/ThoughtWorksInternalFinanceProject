@@ -10,56 +10,24 @@
                     <thead>
                     <tr>
                         <th></th>
-                        <th>January</th>
-                        <th>February</th>
-                        <th>March</th>
-                        <th>April</th>
-                        <th>May</th>
-                        <th>June</th>
-                        <th>July</th>
-                        <th>August</th>
-                        <th>September</th>
-                        <th>October</th>
-                        <th>November</th>
-                        <th>December</th>
+                        <th ng-repeat="month in months">{{month}}</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
                         <td>Planned</td>
-                        <td><input type="number" class="rates-input form-control "></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
+                        <td ng-repeat="value in plannedUtilization"><input type="number" class="rates-input form-control" ng-model="value.value"></td>
                     </tr>
                     <tr>
                         <td>Actual</td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
-                        <td><input type="number" class="form-control rates-input"></td>
+                        <td ng-repeat="value in actualUtilization"><input type="number" class="rates-input form-control" ng-model="value.value"></td>
                     </tr>
 
 
                     </tbody>
                 </table>
                 <!--end of table-->
+                <input class="btn btn-secondary" type="button" id="save-btn" value="Save">
             </div>
         </div>
         <div>

@@ -299,4 +299,8 @@ angular.module('financeApplication.services', [])
         };
 
         return service;
+    }])
+
+    .factory('FinanceService', [function() {
+
     }]);

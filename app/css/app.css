@@ -145,3 +145,7 @@ hr {
     width: 80px;
     height: 20px;
 }
+
+#save-btn {
+    float: right;
+}

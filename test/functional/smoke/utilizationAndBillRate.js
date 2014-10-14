@@ -1,4 +1,4 @@
-describe('utilization and bill rates', function(){
+ddescribe('utilization and bill rates', function(){
     var utilizationAndBillRatesPage = require('../pages/utilizationAndBillRatesPage.js');
     var dashboardPage = require('../pages/dashboardPage.js');
     var financeHomePagePage = require('../pages/financeHomePagePage.js');
@@ -13,8 +13,14 @@ describe('utilization and bill rates', function(){
         it('should show the correct header', function () {
             expect(utilizationAndBillRatesPage.header()).toBe('Johannesburg Utilization');
         });
-        it('should know how save utilization for johannesburg', function () {
-            expect()
+
+        it('should display save button', function(){
+            expect(utilizationAndBillRatesPage.saveButton().isDisplayed()).toBeTruthy();
+        });
+
+        xit('should display successfully saved message when values were saved', function () {
+            utilizationAndBillRatesPage.enterAndSaveValidUtilizationValues();
+            expect(utilizationAndBillRatesPage.successNotification()).toContain('The utilization values were successfully saved');
         });
     });
 

@@ -1,7 +1,9 @@
 var financeHomePagePage = function () {
 
     var helpers = require('./helpers.js');
-    var path = require('path');
+    var  path = require('' +
+        '' +
+        'path');
     var validFilePath = '../../../app/assets/input-valid.xlsx';
     var invalidFilePath = '../../../app/assets/input-invalid.xlsx';
 

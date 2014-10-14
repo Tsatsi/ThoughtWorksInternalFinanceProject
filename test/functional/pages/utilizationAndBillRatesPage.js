@@ -9,6 +9,18 @@ var utilizationAndBillRatesPage = function () {
 
     this.backToDashboard = function () {
         helpers.scrollThenClick(element(by.css('#back-btn')));
+    };
+
+    this.successNotification = function () {
+        return element(by.css('.alert-success')).getText();
+    };
+
+    this.enterAndSaveValidUtilizationValues = function () {
+
+    };
+
+    this.saveButton = function () {
+        return element(by.css('#save-btn'));
     }
 };
 
