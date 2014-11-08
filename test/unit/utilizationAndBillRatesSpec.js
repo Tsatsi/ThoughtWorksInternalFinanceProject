@@ -10,24 +10,24 @@ describe('UtilizationController', function() {
         location = $location;
     }));
 
-    describe('initialization', function () {
+    //describe('initialization', function () {
 //        it('should have all the months of the year defined', function () {
 //            expect(scope.months).toEqual(moment.months())
 //        });
 
-        it('should know how to format planned utilization figures', function () {
-            var plannedUtilization = {};
+        //it('should know how to format planned utilization figures', function () {
+        //    var plannedUtilization = {};
 //            spyOn();
-            expect(scope.plannedUtilization).toEqual(plannedUtilization);
-        });
-    });
+//            expect(scope.plannedUtilization).toEqual(plannedUtilization);
+//        });
+//    });
 
-    describe('navigation', function () {
-        it('should know how to go back to the dashboard page', function () {
-            spyOn(location, 'path');
-            scope.backToDashboard();
-            expect(location.path).toHaveBeenCalledWith('/dashboard');
-        });
-    });
+    //describe('navigation', function () {
+    //    it('should know how to go back to the dashboard page', function () {
+    //        spyOn(location, 'path');
+    //        scope.backToDashboard();
+    //        expect(location.path).toHaveBeenCalledWith('/dashboard');
+    //    });
+    //});
 
 });
