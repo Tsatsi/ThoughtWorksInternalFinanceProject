@@ -82,8 +82,6 @@ describe('UploadController', function () {
                 expect(scope.messageStyle()).toBe('alert alert-success');
             });
 
-;
-
             var simulateUpload = function (expectedSheets) {
                 var deferred = q.defer();
                 deferred.resolve(expectedSheets);
@@ -93,8 +91,5 @@ describe('UploadController', function () {
             }
         });
     });
-
-
-
 
 });

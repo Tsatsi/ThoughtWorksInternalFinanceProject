@@ -203,11 +203,5 @@ describe('FinancialsController', function () {
         });
 
     });
-
-;
-
-
-
-
 });
 
